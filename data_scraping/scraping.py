@@ -68,7 +68,7 @@ db.execute("""
         CREATE TABLE IF NOT EXISTS commodity_url (
             c_id MEDIUMINT AUTO_INCREMENT PRIMARY KEY,
             c_url VARCHAR(256) NOT NULL DEFAULT '',
-            UNIQUE (url)
+            UNIQUE (c_url)
         )""")
 
 commodities = []
