@@ -80,8 +80,10 @@ for (c_id, c_url) in db:
     commodities.append(commodity)
 
 for commodity in commodities:
-    db.execute("REPLACE INTO commodity_price_record(c_title,c_price,c_url,r_date) values(?,?,?,?)",
-               [commodity.title, commodity.price, commodity.url, datetime.now().strftime("%Y-%m-%d")])
+    db.execute("INSERT INTO commodity_price_record_fake(c_title,c_price,c_url,r_date) VALUES(?,?,?,?) "
+               "ON DUPLICATE KEY UPDATE `c_title`=?,`c_price`=?",
+               [commodity.title, commodity.price, commodity.url, datetime.now().strftime("%Y-%m-%d"),
+                commodity.title, commodity.price])
 
 connection.commit()  # required, as mysql generally doesn't autocommit
 connection.close()

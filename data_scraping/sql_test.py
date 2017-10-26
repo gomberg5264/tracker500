@@ -23,7 +23,7 @@ db.execute("""
             c_price FLOAT NOT NULL DEFAULT 0.0,
             c_url VARCHAR(256) NOT NULL DEFAULT '',
             r_date VARCHAR(256) NOT NULL DEFAULT '',
-            CONSTRAINT UC_URL_Date UNIQUE (c_url,r_date)
+            UNIQUE INDEX UI_URL_Date (c_url,r_date)
         )""")
 
 db.execute("""
@@ -38,14 +38,16 @@ commodities = []
 db.execute("select * from commodity_url")
 for (c_id, c_url) in db:
     commodity = Commodity(c_url.decode("UTF-8"))
-    commodity.title = "test1"
-    commodity.price = 100.0
+    commodity.title = "test4"
+    commodity.price = 2011.0
     commodity.print_commodity()
     commodities.append(commodity)
 
 for commodity in commodities:
-    db.execute("REPLACE INTO commodity_price_record_fake(c_title,c_price,c_url,r_date) values(?,?,?,?)",
-               [commodity.title, commodity.price, commodity.url, datetime.now().strftime("%Y-%m-%d")])
+    db.execute("INSERT INTO commodity_price_record_fake(c_title,c_price,c_url,r_date) VALUES(?,?,?,?) "
+               "ON DUPLICATE KEY UPDATE `c_title`=?,`c_price`=?",
+               [commodity.title, commodity.price, commodity.url, datetime.now().strftime("%Y-%m-%d"),
+                commodity.title, commodity.price])
 
 connection.commit()  # required, as mysql generally doesn't autocommit
 connection.close()
