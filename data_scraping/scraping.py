@@ -20,7 +20,7 @@ class Commodity:
         self.url = url
         self.price = 0.0
         self.title = ""
-        self.retrive_count = 0
+        self.retrieve_count = 0
 
     def retrieve_info(self):
         #   get the link to related companies
@@ -33,10 +33,10 @@ class Commodity:
             str_title = title_tag.text
             self.title = str_title.strip()
 
-        self.retrive_count += 1
+        self.retrieve_count += 1
 
         #   if fails, retrieve again.
-        if self.price == 0.0 and self.title == "" and self.retrive_count < 3:
+        if self.price == 0.0 and self.title == "" and self.retrieve_count < 3:
             self.retrieve_info()
 
     def print_commodity(self):
