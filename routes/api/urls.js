@@ -25,13 +25,24 @@ router.post('/', function(req, res) {
       return res.redirect(req.originalUrl + '/');
     }
     urls_models.insertUrl(dbcfg, req.body['url'], function(err, result) {
-        console.log("Error is " + err);
-        console.log("result is " + result);
         if (err) {
             res.status(400).end(err);
         }
         else {
             res.status(201).end(JSON.stringify(result));
+        }
+    });
+});
+
+//  delete a url from db
+//  return value is null
+router.delete('/', function(req, res) {
+    urls_models.deleteUrl(dbcfg, req.body['url'], function(err, result) {
+        if (err) {
+            res.status(400).end(err);
+        }
+        else {
+            res.status(204).end();
         }
     });
 });
