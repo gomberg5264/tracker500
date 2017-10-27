@@ -6,10 +6,10 @@ function init(dbcfg, callback) {
 
     /// how to execute a single statement spanning multiple lines, then return to callback(err)
     db.stage(dbcfg).execute(`
-        CREATE TABLE IF NOT EXISTS commodity_url (
+        CREATE TABLE IF NOT EXISTS commodity_url_fake(
         c_id MEDIUMINT AUTO_INCREMENT PRIMARY KEY,
-        c_url VARCHAR(256) NOT NULL DEFAULT '',
-        UNIQUE (c_url)
+        c_url VARCHAR(255) NOT NULL,
+        UNIQUE (c_url))
         `).finale(callback);
 }
 
@@ -18,11 +18,12 @@ function init(dbcfg, callback) {
 //  param: url is string
 //  return callback(err, result), where result is an object, containing 'c_id' and 'c_url'
 //
-function insert(dbcfg, url, callback) {
+function insertUrl(dbcfg, url, callback) {
     var stage = db.stage(dbcfg);
-    stage.execute(
-    "INSERT INTO commodity_url(c_url) VALUES(?)", url]
-    );
+    stage.execute(`
+        INSERT INTO commodity_url_fake(c_url) VALUES(?)
+        ON DUPLICATE KEY UPDATE c_url=?
+        `, [url, url]);
 
     stage.queryInt("select LAST_INSERT_ID()");
     stage.finale((err, results) => {
@@ -42,15 +43,22 @@ function insert(dbcfg, url, callback) {
 //
 //  description: list all urls in DB, and order by url_id
 //
-function listAllCompanies(dbcfg, callback) {
+function listAllUrls(dbcfg, callback) {
     /// issue a single query, then output the result to callback(err, results)
-    db.stage(dbcfg).query("SELECT * FROM commodity_url ORDER BY c_id").finale(callback);
+    db.stage(dbcfg).query("SELECT * FROM commodity_url_fake ORDER BY c_id").finale(callback);
 }
 
 //
 //  description: delete the url with specified url
 //
-function del(dbcfg, url, callback) {
+function deleteUrl(dbcfg, url, callback) {
     db.stage(dbcfg).execute(
-        "DELETE FROM commodity_url WHERE c_url='" + url + "'").finale(callback);
+        "DELETE FROM commodity_url_fake WHERE c_url=?", [url]).finale(callback);
 }
+
+module.exports = {
+  init: init,
+  insertUrl: insertUrl,
+  listAllUrls: listAllUrls,
+  deleteUrl:deleteUrl
+};
