@@ -1,7 +1,5 @@
 var db = require('mysql2-db');
 
-// TODO: CRUD methods
-
 function init(dbcfg, callback) {
 
     /// how to execute a single statement spanning multiple lines, then return to callback(err)
