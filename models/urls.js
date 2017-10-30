@@ -4,7 +4,7 @@ function init(dbcfg, callback) {
 
     /// how to execute a single statement spanning multiple lines, then return to callback(err)
     db.stage(dbcfg).execute(`
-        CREATE TABLE IF NOT EXISTS commodity_url_fake(
+        CREATE TABLE IF NOT EXISTS commodity_url(
         c_id MEDIUMINT AUTO_INCREMENT PRIMARY KEY,
         c_url VARCHAR(255) NOT NULL,
         UNIQUE (c_url))
@@ -19,7 +19,7 @@ function init(dbcfg, callback) {
 function insertUrl(dbcfg, url, callback) {
     var stage = db.stage(dbcfg);
     stage.execute(`
-        INSERT INTO commodity_url_fake(c_url) VALUES(?)
+        INSERT INTO commodity_url(c_url) VALUES(?)
         ON DUPLICATE KEY UPDATE c_url=?
         `, [url, url]);
 
@@ -43,7 +43,7 @@ function insertUrl(dbcfg, url, callback) {
 //
 function listAllUrls(dbcfg, callback) {
     /// issue a single query, then output the result to callback(err, results)
-    db.stage(dbcfg).query("SELECT * FROM commodity_url_fake ORDER BY c_id").finale(callback);
+    db.stage(dbcfg).query("SELECT * FROM commodity_url ORDER BY c_id").finale(callback);
 }
 
 //
@@ -51,7 +51,7 @@ function listAllUrls(dbcfg, callback) {
 //
 function deleteUrl(dbcfg, url, callback) {
     db.stage(dbcfg).execute(
-        "DELETE FROM commodity_url_fake WHERE c_url=?", [url]).finale(callback);
+        "DELETE FROM commodity_url WHERE c_url=?", [url]).finale(callback);
 }
 
 module.exports = {

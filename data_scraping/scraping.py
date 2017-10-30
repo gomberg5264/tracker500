@@ -16,7 +16,8 @@ def retrieve(url: str):
 
 
 class Commodity:
-    def __init__(self, url):
+    def __init__(self, c_id, url):
+        self.c_id = c_id
         self.url = url
         self.price = 0.0
         self.title = ""
@@ -59,9 +60,9 @@ db.execute("""
             r_id MEDIUMINT AUTO_INCREMENT PRIMARY KEY,
             c_title VARCHAR(256) NOT NULL DEFAULT '',
             c_price FLOAT NOT NULL DEFAULT 0.0,
-            c_url VARCHAR(256) NOT NULL DEFAULT '',
+            c_id MEDIUMINT NOT NULL,
             r_date VARCHAR(256) NOT NULL DEFAULT '',
-            CONSTRAINT UC_URL_Date UNIQUE (c_url,r_date)
+            CONSTRAINT UC_URL_Date UNIQUE (c_id,r_date)
         )""")
 
 db.execute("""
@@ -74,15 +75,15 @@ db.execute("""
 commodities = []
 db.execute("select * from commodity_url")
 for (c_id, c_url) in db:
-    commodity = Commodity(c_url.decode("UTF-8"))
+    commodity = Commodity(c_id, c_url.decode("UTF-8"))
     commodity.retrieve_info()
     commodity.print_commodity()
     commodities.append(commodity)
 
 for commodity in commodities:
-    db.execute("INSERT INTO commodity_price_record(c_title,c_price,c_url,r_date) VALUES(?,?,?,?) "
+    db.execute("INSERT INTO commodity_price_record(c_title,c_price,c_id,r_date) VALUES(?,?,?,?) "
                "ON DUPLICATE KEY UPDATE `c_title`=?,`c_price`=?",
-               [commodity.title, commodity.price, commodity.url, datetime.now().strftime("%Y-%m-%d"),
+               [commodity.title, commodity.price, commodity.c_id, datetime.now().strftime("%Y-%m-%d"),
                 commodity.title, commodity.price])
 
 connection.commit()  # required, as mysql generally doesn't autocommit
