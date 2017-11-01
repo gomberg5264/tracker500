@@ -5,6 +5,7 @@ const superagent = require('superagent')
 var BASE_URL = 'http://localhost:3000/api';
 
 var url = [
+    "https://www.amazon.com/JBL-Pulse-Bluetooth-Waterproof-Black/dp/B074Q4S2NJ",
     "https://www.amazon.com/Philips-AVENT-Double-Electric-Comfort/dp/B00N4R4C3M",
     "https://www.amazon.com/Philips-AVENT-Single-Electric-Comfort/dp/B00PF83R6G/",
      "https://www.amazon.com/Philips-AVENT-Natural-Glass-Bottle/dp/B00PF83R84/ref=sr_1_6_s_it?s=baby-products&ie=UTF8&qid=1508883080&sr=1-6&keywords=philips+avent",
