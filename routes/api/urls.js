@@ -3,7 +3,7 @@ var router = express.Router();
 var urls_models = require("../../models/urls")
 var dbcfg = require('../../config/db.json');
 
-//  query all companies
+//  query all urls
 //  return value is a JSON Array or empty Array
 router.get('/', function(req, res) {
     // make sure we end with a slash, so that relative links point *into* this router
