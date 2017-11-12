@@ -3,7 +3,7 @@ var router = express.Router();
 var dbcfg = require('../../config/db.json');
 
 //  query commodity by url
-//  return value is a JSON Array or empty Array
+//  return value is a JSON Object
 router.get('/', function(req, res) {
     // make sure we end with a slash, so that relative links point *into* this router
     if (req.originalUrl.slice(-1) != '/') {
