@@ -36,7 +36,7 @@ function quertPrices(dbcfg, callback, c_id, start_date, end_date) {
         date_filter = "";
     }
 
-    var query_str = "SELECT * FROM commodity_price_record WHERE c_id='" + c_id + "'" + date_filter + " ORDER BY r_id";
+    var query_str = "SELECT r_id, c_title, c_price, r_date FROM commodity_price_record WHERE c_id='" + c_id + "'" + date_filter + " ORDER BY r_id";
     console.log(query_str);
     db.stage(dbcfg).query(query_str).finale(callback);
 }
