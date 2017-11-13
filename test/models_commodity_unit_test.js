@@ -10,8 +10,6 @@ describe("test models of commodity", function () {
 
     it("should be able to list all prices with limitation of date", function (done) {
         commodity_models.quertPrices(dbcfg, (err, results) => {
-
-            console.log("in callback");
             expect(err).not.to.exist;
             record_count = results.length;
             console.log("record count = " + record_count);

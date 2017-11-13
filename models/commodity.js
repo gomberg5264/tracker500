@@ -24,8 +24,6 @@ function init(dbcfg, callback) {
  */
 function quertPrices(dbcfg, callback, c_id, start_date, end_date) {
 
-    console.log("c_id = " + c_id + " s_date = " + start_date + " e_date = " + end_date);
-
     if((start_date === undefined && end_date !== undefined) ||
         (start_date !== undefined && end_date === undefined)) {
         return callback(new Error('one of start_date and end_date missed'));
@@ -37,7 +35,6 @@ function quertPrices(dbcfg, callback, c_id, start_date, end_date) {
     }
 
     var query_str = "SELECT r_id, c_title, c_price, r_date FROM commodity_price_record WHERE c_id='" + c_id + "'" + date_filter + " ORDER BY r_id";
-    console.log(query_str);
     db.stage(dbcfg).query(query_str).finale(callback);
 }
 

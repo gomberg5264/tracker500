@@ -2,6 +2,26 @@ var express = require('express');
 var router = express.Router();
 var dbcfg = require('../../config/db.json');
 var commodity_models = require("../../models/commodity")
+// var commodity_util = require("commodity_util");
+
+function generateResult(data) {
+    var result = {};
+    if (data.length === 0) {
+        result['title'] = "";
+        result['price_array'] = [];
+    }
+    else {
+        result['title'] = data[0]['c_title'];
+        result['price_array'] = [];
+        for(i in data) {
+            var item = {};
+            item['price'] = data[i]['c_price'];
+            item['date'] = data[i]['r_date'];
+            result['price_array'].push(item);
+        }
+    }
+    return result;
+}
 
 /**
  * query commodity prices in a time period
@@ -24,27 +44,7 @@ router.get('/:c_id/:start_date/:end_date', function(req, res) {
 
     commodity_models.quertPrices(dbcfg, function(err, data) {
 
-        console.log("data_length = " + data.length);
-
-        var result = {};
-        if (data.length === 0) {
-            result['title'] = "";
-            result['price_array'] = [];
-        }
-        else {
-            result['title'] = data[0]['c_title'];
-            result['price_array'] = [];
-            for(i in data) {
-                var item = {};
-                item['price'] = data[i]['c_price'];
-                item['date'] = data[i]['r_date'];
-                result['price_array'].push(item);
-            }
-        }
-
-        console.log(result);
-
-        res.end(JSON.stringify(result));
+        res.end(JSON.stringify(generateResult(data)));
 
     }, c_id, start_date, end_date);
 });
@@ -66,27 +66,7 @@ router.get('/:c_id', function(req, res) {
 
     commodity_models.quertPrices(dbcfg, function(err, data) {
 
-        console.log("data_length = " + data.length);
-
-        var result = {};
-        if (data.length === 0) {
-            result['title'] = "";
-            result['price_array'] = [];
-        }
-        else {
-            result['title'] = data[0]['c_title'];
-            result['price_array'] = [];
-            for(i in data) {
-                var item = {};
-                item['price'] = data[i]['c_price'];
-                item['date'] = data[i]['r_date'];
-                result['price_array'].push(item);
-            }
-        }
-
-        console.log(result);
-
-        res.end(JSON.stringify(result));
+        res.end(JSON.stringify(generateResult(data)));
 
     }, c_id);
 });
