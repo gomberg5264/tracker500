@@ -11,16 +11,16 @@ var commodity_models = require("../../models/commodity")
  * @param {string} end_date
  * @return {object} {"title": "Bose QC35", "price_array": [{"price": 300, "date": "2017-10-29"}, {...}...]}
  */
-router.get('/', function(req, res) {
+router.get('/:c_id/:start_date/:end_date', function(req, res) {
     // make sure we end with a slash, so that relative links point *into* this router
     if (req.originalUrl.slice(-1) != '/') {
       console.log("Output originalUrl" + req.originalUrl);
       return res.redirect(req.originalUrl + '/');
     }
 
-    var c_id = req.query['c_id'];
-    var start_date = req.query['start_date'];
-    var end_date = req.query['end_date'];
+    var c_id = req.params['c_id'];
+    var start_date = req.params['start_date'];
+    var end_date = req.params['end_date'];
 
     commodity_models.quertPrices(dbcfg, function(err, data) {
 

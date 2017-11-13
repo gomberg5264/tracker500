@@ -10,7 +10,7 @@ var end_date = "2017-11-10";
 
 describe("test site with superagent", () => {
     it("test GET /url/api/commodity/", (done) => {
-        superagent.get(BASE_URL + '/commodity?c_id=' + c_id + '&start_date=' + start_date + "&end_date=" + end_date)
+        superagent.get(BASE_URL + '/commodity/' + c_id + '/' + start_date + "/" + end_date)
             .end(function(err, res) {
 
                 // expect(err).to.not.exist;
