@@ -20,11 +20,9 @@ describe("test models of commodity", function () {
     it("should be able to list all prices without limitation of date", function (done) {
         commodity_models.quertPrices(dbcfg, (err, results) => {
             expect(err).not.to.exist;
-            record_count = results.length;
             for(var i=0; i<results.length; i++) {
                 if (i+1 < results.length) {
-                    console.log(results[i]['r_date']);
-                    if(results[i]['r_date'] < results[i+1]['r_date'])
+                    if(results[i]['r_date'] >= results[i+1]['r_date'])
                         throw new Error('date should be in ascending');
                 }
             }
