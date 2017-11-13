@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var dbcfg = require('../../config/db.json');
+var commodity_models = require("../../models/commodity")
 
 /**
  * query commodity prices in a time period
@@ -16,9 +17,36 @@ router.get('/', function(req, res) {
       console.log("Output originalUrl" + req.originalUrl);
       return res.redirect(req.originalUrl + '/');
     }
-    // urls_models.listAllUrls(dbcfg, function(err, results) {
-    //     res.end(JSON.stringify(results));
-    // });
+
+    var c_id = req.query['c_id'];
+    var start_date = req.query['start_date'];
+    var end_date = req.query['end_date'];
+
+    commodity_models.quertPrices(dbcfg, function(err, data) {
+
+        console.log("data_length = " + data.length);
+
+        var result = {};
+        if (data.length === 0) {
+            result['title'] = "";
+            result['price_array'] = [];
+        }
+        else {
+            result['title'] = data[0]['c_title'];
+            result['price_array'] = [];
+            for(i in data) {
+                var item = {};
+                item['price'] = data[i]['c_price'];
+                item['date'] = data[i]['r_date'];
+                result['price_array'].push(item);
+            }
+        }
+
+        console.log(result);
+
+        res.end(JSON.stringify(result));
+
+    }, c_id, start_date, end_date);
 });
 
 module.exports = router;
