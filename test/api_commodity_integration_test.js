@@ -5,7 +5,7 @@ const superagent = require('superagent')
 var BASE_URL = 'http://localhost:3000/api';
 
 var c_id = "29";
-var start_date = "2017-11-3";
+var start_date = "2017-11-03";
 var end_date = "2017-11-10";
 
 describe("test site with superagent", () => {

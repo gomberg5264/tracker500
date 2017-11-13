@@ -29,6 +29,10 @@ function quertPrices(dbcfg, callback, c_id, start_date, end_date) {
         return callback(new Error('one of start_date and end_date missed'));
     }
 
+    if(start_date > end_date) {
+        return callback(new Error('start_date is behind end_date!'));
+    }
+
     var date_filter = "";
     if(start_date !== undefined && end_date !== undefined) {
         date_filter = " AND 'r_date' BETWEEN '" + start_date + "' AND '" + end_date + "'";
