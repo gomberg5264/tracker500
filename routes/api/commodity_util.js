@@ -8,16 +8,16 @@ function generateResult(data) {
     var result = {};
     if (data.length === 0) {
         result['title'] = "";
-        result['price_array'] = [];
+        result['prices'] = [];
     }
     else {
         result['title'] = data[0]['c_title'];
-        result['price_array'] = [];
+        result['prices'] = [];
         for(i in data) {
             var item = {};
             item['price'] = data[i]['c_price'];
             item['date'] = data[i]['r_date'];
-            result['price_array'].push(item);
+            result['prices'].push(item);
         }
     }
     return result;

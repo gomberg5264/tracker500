@@ -2,26 +2,7 @@ var express = require('express');
 var router = express.Router();
 var dbcfg = require('../../config/db.json');
 var commodity_models = require("../../models/commodity")
-// var commodity_util = require("commodity_util");
-
-function generateResult(data) {
-    var result = {};
-    if (data.length === 0) {
-        result['title'] = "";
-        result['price_array'] = [];
-    }
-    else {
-        result['title'] = data[0]['c_title'];
-        result['price_array'] = [];
-        for(i in data) {
-            var item = {};
-            item['price'] = data[i]['c_price'];
-            item['date'] = data[i]['r_date'];
-            result['price_array'].push(item);
-        }
-    }
-    return result;
-}
+var commodity_util = require('./commodity_util');
 
 /**
  * query commodity prices in a time period
@@ -29,7 +10,7 @@ function generateResult(data) {
  * @param {string} c_id
  * @param {string} start_date
  * @param {string} end_date
- * @return {object} {"title": "Bose QC35", "price_array": [{"price": 300, "date": "2017-10-29"}, {...}...]}
+ * @return {object} {"title": "Bose QC35", "prices": [{"price": 300, "date": "2017-10-29"}, {...}...]}
  */
 router.get('/:c_id/:start_date/:end_date', function(req, res) {
     // make sure we end with a slash, so that relative links point *into* this router
@@ -44,7 +25,7 @@ router.get('/:c_id/:start_date/:end_date', function(req, res) {
 
     commodity_models.quertPrices(dbcfg, function(err, data) {
 
-        res.end(JSON.stringify(generateResult(data)));
+        res.end(JSON.stringify(commodity_util.generateResult(data)));
 
     }, c_id, start_date, end_date);
 });
@@ -53,7 +34,7 @@ router.get('/:c_id/:start_date/:end_date', function(req, res) {
  * query commodity prices in all time period
  * GET Method
  * @param {string} c_id
- * @return {object} {"title": "Bose QC35", "price_array": [{"price": 300, "date": "2017-10-29"}, {...}...]}
+ * @return {object} {"title": "Bose QC35", "prices": [{"price": 300, "date": "2017-10-29"}, {...}...]}
  */
 router.get('/:c_id', function(req, res) {
     // make sure we end with a slash, so that relative links point *into* this router
@@ -66,7 +47,7 @@ router.get('/:c_id', function(req, res) {
 
     commodity_models.quertPrices(dbcfg, function(err, data) {
 
-        res.end(JSON.stringify(generateResult(data)));
+        res.end(JSON.stringify(commodity_util.generateResult(data)));
 
     }, c_id);
 });

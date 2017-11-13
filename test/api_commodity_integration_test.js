@@ -21,7 +21,7 @@ describe("test site with superagent", () => {
                 var commodity = JSON.parse(res.text);
                 expect(commodity).to.be.an.instanceof(Object);
                 expect(commodity['title']).to.be.a('string');
-                expect(commodity['price_array']).to.be.an.instanceof(Array);
+                expect(commodity['prices']).to.be.an.instanceof(Array);
 
                 done();
             });
@@ -39,7 +39,7 @@ describe("test site with superagent", () => {
                 var commodity = JSON.parse(res.text);
                 expect(commodity).to.be.an.instanceof(Object);
                 expect(commodity['title']).to.be.a('string');
-                expect(commodity['price_array']).to.be.an.instanceof(Array);
+                expect(commodity['prices']).to.be.an.instanceof(Array);
 
                 done();
             });
