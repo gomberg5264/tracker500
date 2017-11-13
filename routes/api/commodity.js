@@ -25,8 +25,12 @@ router.get('/:c_id/:start_date/:end_date', function(req, res) {
 
     commodity_models.quertPrices(dbcfg, function(err, data) {
 
-        res.end(JSON.stringify(commodity_util.generateResult(data)));
-
+        if (err === undefined) {
+            res.end(JSON.stringify(commodity_util.generateResult(data)));
+        }
+        else {
+            res.status(400).end(err.message);
+        }
     }, c_id, start_date, end_date);
 });
 
@@ -47,7 +51,12 @@ router.get('/:c_id', function(req, res) {
 
     commodity_models.quertPrices(dbcfg, function(err, data) {
 
-        res.end(JSON.stringify(commodity_util.generateResult(data)));
+        if (err === undefined) {
+            res.end(JSON.stringify(commodity_util.generateResult(data)));
+        }
+        else {
+            res.status(400).end(err.message);
+        }
 
     }, c_id);
 });
