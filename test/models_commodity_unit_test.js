@@ -11,8 +11,17 @@ describe("test models of commodity", function () {
     it("should be able to list all prices with limitation of date", function (done) {
         commodity_models.quertPrices(dbcfg, (err, results) => {
             expect(err).not.to.exist;
-            record_count = results.length;
-            console.log("record count = " + record_count);
+            for(var i=0; i<results.length; i++) {
+
+                //  date should be in date period
+                if (results[i]['r_date'] > end_date || results[i]['r_date'] < start_date)
+                    throw new Error('date should be in date period');
+                //  date should be in ascending
+                if (i+1 < results.length) {
+                    if(results[i]['r_date'] >= results[i+1]['r_date'])
+                        throw new Error('date should be in ascending');
+                }
+            }
             done();
         }, c_id, start_date, end_date);
     });

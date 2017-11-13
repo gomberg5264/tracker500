@@ -31,7 +31,7 @@ function quertPrices(dbcfg, callback, c_id, start_date, end_date) {
 
     var date_filter = "";
     if(start_date !== undefined && end_date !== undefined) {
-        date_filter = "";
+        date_filter = " AND 'r_date' BETWEEN '" + start_date + "' AND '" + end_date + "'";
     }
 
     var query_str = "SELECT r_id, c_title, c_price, r_date FROM commodity_price_record WHERE c_id='" + c_id + "'" + date_filter + " ORDER BY r_date";
