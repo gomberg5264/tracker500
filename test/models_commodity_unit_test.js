@@ -4,13 +4,15 @@ var commodity_models = require("../models/commodity")
 
 var c_id = "29";
 var start_date = "2017-11-03";
-var end_date = "2017-11-10";
+var end_date = "2017-11-11";
 
 describe("test models of commodity", function () {
 
     it("should be able to list all prices with limitation of date", function (done) {
         commodity_models.quertPrices(dbcfg, (err, results) => {
             expect(err).not.to.exist;
+
+            expect(results.length).not.to.equal(0);
             for(var i=0; i<results.length; i++) {
 
                 //  date should be in date period
