@@ -25,7 +25,7 @@ router.get('/:c_id/:start_date/:end_date', function(req, res) {
 
     commodity_models.quertPrices(dbcfg, function(err, data) {
 
-        if (err === undefined) {
+        if (err === null) {
             res.end(JSON.stringify(commodity_util.generateResult(data)));
         }
         else {
@@ -51,7 +51,7 @@ router.get('/:c_id', function(req, res) {
 
     commodity_models.quertPrices(dbcfg, function(err, data) {
 
-        if (err === undefined) {
+        if (err === null) {
             res.end(JSON.stringify(commodity_util.generateResult(data)));
         }
         else {
@@ -59,6 +59,24 @@ router.get('/:c_id', function(req, res) {
         }
 
     }, c_id);
+});
+
+/**
+ * query commodity prices with wrong param
+ * GET Method
+ * @param {string} c_id
+ * @param {string} date
+ * @return {object} {"title": "Bose QC35", "prices": [{"price": 300, "date": "2017-10-29"}, {...}...]}
+ */
+router.get('/:c_id/:date', function(req, res) {
+    // make sure we end with a slash, so that relative links point *into* this router
+    if (req.originalUrl.slice(-1) != '/') {
+      console.log("Output originalUrl" + req.originalUrl);
+      return res.redirect(req.originalUrl + '/');
+    }
+
+    res.status(400).end("Missing date parameter");
+
 });
 
 module.exports = router;

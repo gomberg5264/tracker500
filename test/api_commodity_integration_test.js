@@ -13,7 +13,7 @@ describe("test site with superagent", () => {
         superagent.get(BASE_URL + '/commodity/' + c_id + '/' + start_date + "/" + end_date)
             .end(function(err, res) {
 
-                // expect(err).to.not.exist;
+                expect(err).to.not.exist;
                 expect(res).to.exist;
                 expect(res.status).to.equal(200);
                 expect(res.text).to.exist;
@@ -31,7 +31,7 @@ describe("test site with superagent", () => {
         superagent.get(BASE_URL + '/commodity/' + c_id)
             .end(function(err, res) {
 
-                // expect(err).to.not.exist;
+                expect(err).to.not.exist;
                 expect(res).to.exist;
                 expect(res.status).to.equal(200);
                 expect(res.text).to.exist;
@@ -45,4 +45,15 @@ describe("test site with superagent", () => {
             });
     });
 
+    it("test GET /url/api/commodity/ with wrong date input", (done) => {
+        superagent.get(BASE_URL + '/commodity/' + c_id + '/' + start_date)
+            .end(function(err, res) {
+
+                expect(err).to.exist;
+                expect(res).to.exist;
+                expect(res.status).to.equal(400);
+
+                done();
+            });
+    });
 });
