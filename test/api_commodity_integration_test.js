@@ -7,6 +7,7 @@ var BASE_URL = 'http://localhost:3000/api';
 var c_id = "29";
 var start_date = "2017-11-03";
 var end_date = "2017-11-10";
+var wrong_end_date = "2017-12-1"; //  "YYYY-MM-DD"
 
 describe("test site with superagent", () => {
     it("test GET /url/api/commodity with limitation of date", (done) => {
@@ -45,8 +46,32 @@ describe("test site with superagent", () => {
             });
     });
 
-    it("test GET /url/api/commodity/ with wrong date input", (done) => {
+    it("test GET /url/api/commodity/ with wrong date input number ", (done) => {
         superagent.get(BASE_URL + '/commodity/' + c_id + '/' + start_date)
+            .end(function(err, res) {
+
+                expect(err).to.exist;
+                expect(res).to.exist;
+                expect(res.status).to.equal(400);
+
+                done();
+            });
+    });
+
+    it("test GET /url/api/commodity/ with wrong date format", (done) => {
+        superagent.get(BASE_URL + '/commodity/' + c_id + '/' + start_date + '/' + wrong_end_date)
+            .end(function(err, res) {
+
+                expect(err).to.exist;
+                expect(res).to.exist;
+                expect(res.status).to.equal(400);
+
+                done();
+            });
+    });
+
+    it("test GET /url/api/commodity/ with wrong date format", (done) => {
+        superagent.get(BASE_URL + '/commodity/' + c_id + '/' + end_date + '/' + start_date)
             .end(function(err, res) {
 
                 expect(err).to.exist;

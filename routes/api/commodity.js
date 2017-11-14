@@ -3,6 +3,7 @@ var router = express.Router();
 var dbcfg = require('../../config/db.json');
 var commodity_models = require("../../models/commodity")
 var commodity_util = require('./commodity_util');
+var moment = require('moment');
 
 /**
  * query commodity prices in a time period
@@ -13,25 +14,28 @@ var commodity_util = require('./commodity_util');
  * @return {object} {"title": "Bose QC35", "prices": [{"price": 300, "date": "2017-10-29"}, {...}...]}
  */
 router.get('/:c_id/:start_date/:end_date', function(req, res) {
-    // make sure we end with a slash, so that relative links point *into* this router
-    if (req.originalUrl.slice(-1) != '/') {
-      console.log("Output originalUrl" + req.originalUrl);
-      return res.redirect(req.originalUrl + '/');
-    }
 
     var c_id = req.params['c_id'];
     var start_date = req.params['start_date'];
     var end_date = req.params['end_date'];
 
-    commodity_models.quertPrices(dbcfg, function(err, data) {
+    if(moment(start_date, "YYYY-MM-DD", true).isValid()
+        && moment(end_date, "YYYY-MM-DD", true).isValid()) {
 
-        if (err === null) {
-            res.end(JSON.stringify(commodity_util.generateResult(data)));
-        }
-        else {
-            res.status(400).end(err.message);
-        }
-    }, c_id, start_date, end_date);
+        commodity_models.quertPrices(dbcfg, function(err, data) {
+
+            if (err === null) {
+                res.end(JSON.stringify(commodity_util.generateResult(data)));
+            }
+            else {
+                res.status(400).end(err.message);
+            }
+        }, c_id, start_date, end_date);
+    }
+    else {
+        res.status(400).end("Date format error");
+    }
+
 });
 
 /**
@@ -41,11 +45,6 @@ router.get('/:c_id/:start_date/:end_date', function(req, res) {
  * @return {object} {"title": "Bose QC35", "prices": [{"price": 300, "date": "2017-10-29"}, {...}...]}
  */
 router.get('/:c_id', function(req, res) {
-    // make sure we end with a slash, so that relative links point *into* this router
-    if (req.originalUrl.slice(-1) != '/') {
-      console.log("Output originalUrl" + req.originalUrl);
-      return res.redirect(req.originalUrl + '/');
-    }
 
     var c_id = req.params['c_id'];
 
@@ -69,11 +68,6 @@ router.get('/:c_id', function(req, res) {
  * @return {object} {"title": "Bose QC35", "prices": [{"price": 300, "date": "2017-10-29"}, {...}...]}
  */
 router.get('/:c_id/:date', function(req, res) {
-    // make sure we end with a slash, so that relative links point *into* this router
-    if (req.originalUrl.slice(-1) != '/') {
-      console.log("Output originalUrl" + req.originalUrl);
-      return res.redirect(req.originalUrl + '/');
-    }
 
     res.status(400).end("Missing date parameter");
 
