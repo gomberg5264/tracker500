@@ -1,7 +1,11 @@
+
 function submitUrl() {
     var url_value = $("#url_input").val();
     if(url_value === "" || url_value === "http://") {
         alert("No parameter");
+    }
+    else if(!isAmazonUrl(url_value)) {
+        alert("not a amazon URL");
     }
     else {
         $.ajax({
