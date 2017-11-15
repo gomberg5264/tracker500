@@ -35,13 +35,23 @@ class Commodity:
     def retrieve_info(self):
         #   get the link to related companies
         soup = retrieve(self.url)
-        for price_tag in soup.find_all(id="priceblock_ourprice"):
-            str_price = price_tag.text
-            self.price = float(str_price[1:])
 
+        # retrieve title
         for title_tag in soup.find_all(id="productTitle"):
             str_title = title_tag.text
             self.title = str_title.strip()
+
+        # retrieve price
+        for price_tag in soup.find_all(id="priceblock_ourprice"):
+            str_price = price_tag.text
+            if str_price.find('\n') == -1:
+                self.price = float(str_price[1:])
+            else:
+                index_of_1st_enter = str_price.find('\n', 2+1)
+                str_price_integer = str_price[2:index_of_1st_enter]
+                index_of_2nd_enter = str_price.find('\n', index_of_1st_enter+1)
+                str_price_decimal = str_price[index_of_1st_enter+1:index_of_2nd_enter]
+                self.price = float(str_price_integer + '.' + str_price_decimal)
 
         self.retrieve_count += 1
 

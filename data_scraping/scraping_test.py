@@ -36,13 +36,23 @@ class Commodity:
     def retrieve_info(self):
         #   get the link to related companies
         soup = retrieve(self.url)
-        for price_tag in soup.find_all(id="priceblock_ourprice"):
-            str_price = price_tag.text
-            self.price = float(str_price[1:])
 
+        # retrieve title
         for title_tag in soup.find_all(id="productTitle"):
             str_title = title_tag.text
             self.title = str_title.strip()
+
+        # retrieve price
+        for price_tag in soup.find_all(id="priceblock_ourprice"):
+            str_price = price_tag.text
+            if str_price.find('\n') == -1:
+                self.price = float(str_price[1:])
+            else:
+                index_of_1st_enter = str_price.find('\n', 2+1)
+                str_price_integer = str_price[2:index_of_1st_enter]
+                index_of_2nd_enter = str_price.find('\n', index_of_1st_enter+1)
+                str_price_decimal = str_price[index_of_1st_enter+1:index_of_2nd_enter]
+                self.price = float(str_price_integer + '.' + str_price_decimal)
 
         self.retrieve_count += 1
 
@@ -55,6 +65,7 @@ class Commodity:
 
 
 urls = [
+    "https://www.amazon.com/God-War-3-Remastered-PlayStation-4/dp/B00USM22DI",
     "https://www.amazon.com/dp/B073TS5FSK/ref=dp_sp_detail?psc=1",
     "https://www.amazon.com/dp/B00T8VQTGQ",
     "https://www.amazon.com/Philips-AVENT-Double-Electric-Comfort/dp/B00N4R4C3M/ref=sr_1_4_s_it?s=baby-products&ie=UTF8&qid=1509343031&sr=1-4&keywords=AVENT+Double+Electric+Comfort+Breast+Pump",
@@ -65,6 +76,6 @@ urls = [
     "https://www.amazon.com/JBL-Wireless-Bluetooth-Speaker-Pairing/dp/B00GOF0ZQ4/ref=sr_1_5?ie=UTF8&qid=1508884897&sr=8-5&keywords=jbl+pulse"
 ]
 
-commodity = Commodity(0, urls[0])
+commodity = Commodity(0, urls[1])
 commodity.retrieve_info()
 commodity.print_commodity()

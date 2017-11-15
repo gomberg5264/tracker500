@@ -9,7 +9,7 @@ var start_date = "2017-11-03";
 var end_date = "2017-11-10";
 var wrong_end_date = "2017-12-1"; //  "YYYY-MM-DD"
 
-describe("test site with superagent", () => {
+describe("test commodity api with superagent", () => {
     it("test GET /url/api/commodity with limitation of date", (done) => {
         superagent.get(BASE_URL + '/commodity/' + c_id + '/' + start_date + "/" + end_date)
             .end(function(err, res) {
