@@ -92,7 +92,7 @@ db.execute("""
         )""")
 
 commodities = []
-db.execute("select * from commodity_url")
+db.execute("SELECT * FROM commodity_url ORDER BY c_id")
 for (c_id, c_url) in db:
     commodity = Commodity(c_id, c_url.decode("UTF-8"))
     commodity.retrieve_info()
