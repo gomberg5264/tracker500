@@ -55,9 +55,11 @@ router.get('/:c_id', function(req, res) {
     commodity_models.quertPrices(dbcfg, function(err, data) {
 
         if (err === null) {
+            res.set({'content-type': 'application/json;charset=utf-8'});
             res.end(JSON.stringify(commodity_util.generateResult(data)));
         }
         else {
+            res.set({'content-type': 'application/json;charset=utf-8'});
             res.status(400).end(err.message);
         }
 
@@ -73,6 +75,7 @@ router.get('/:c_id', function(req, res) {
  */
 router.get('/:c_id/:date', function(req, res) {
 
+    res.set({'content-type': 'application/json;charset=utf-8'});
     res.status(400).end("Missing date parameter");
 
 });
