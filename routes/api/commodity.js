@@ -26,7 +26,8 @@ router.get('/:c_id/:start_date/:end_date', function(req, res) {
 
             if (err === null) {
                 res.set({'content-type': 'application/json;charset=utf-8'});
-                res.end(JSON.stringify(commodity_util.generateResult(data)));
+                data = { "data": commodity_util.generateResult(data) };
+                res.end(JSON.stringify(data));
             }
             else {
                 res.set({'content-type': 'application/json;charset=utf-8'});
