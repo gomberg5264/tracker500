@@ -25,14 +25,17 @@ router.get('/:c_id/:start_date/:end_date', function(req, res) {
         commodity_models.quertPrices(dbcfg, function(err, data) {
 
             if (err === null) {
+                res.set({'content-type': 'application/json;charset=utf-8'});
                 res.end(JSON.stringify(commodity_util.generateResult(data)));
             }
             else {
+                res.set({'content-type': 'application/json;charset=utf-8'});
                 res.status(400).end(err.message);
             }
         }, c_id, start_date, end_date);
     }
     else {
+        res.set({'content-type': 'application/json;charset=utf-8'});
         res.status(400).end("Date format error");
     }
 

@@ -12,6 +12,7 @@ router.get('/', function(req, res) {
       return res.redirect(req.originalUrl + '/');
     }
     urls_models.listAllUrls(dbcfg, function(err, results) {
+        res.set({'content-type': 'application/json;charset=utf-8'});
         res.end(JSON.stringify(results));
     });
 });
@@ -29,6 +30,7 @@ router.post('/', function(req, res) {
             res.status(400).end(err);
         }
         else {
+            res.set({'content-type': 'application/json;charset=utf-8'});
             res.status(201).end(JSON.stringify(result));
         }
     });
