@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
     urls_models.listAllUrls(dbcfg, function(err, results) {
         res.set({'content-type': 'application/json;charset=utf-8'});
         data = { "data": results };
-        res.end(JSON.stringify(data));
+        res.status(200).end(JSON.stringify(data));
     });
 });
 

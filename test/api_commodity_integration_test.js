@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const superagent = require('superagent')
 
-var BASE_URL = 'http://localhost:3000/api';
+var BASE_URL = 'http://172.20.10.3:3000/api';
 
 var c_id = "29";
 var start_date = "2017-11-03";
@@ -21,8 +21,8 @@ describe("test commodity api with superagent", () => {
 
                 var commodity = JSON.parse(res.text);
                 expect(commodity).to.be.an.instanceof(Object);
-                expect(commodity['title']).to.be.a('string');
-                expect(commodity['prices']).to.be.an.instanceof(Array);
+                expect(commodity['data']['title']).to.be.a('string');
+                expect(commodity['data']['prices']).to.be.an.instanceof(Array);
 
                 done();
             });
@@ -39,8 +39,8 @@ describe("test commodity api with superagent", () => {
 
                 var commodity = JSON.parse(res.text);
                 expect(commodity).to.be.an.instanceof(Object);
-                expect(commodity['title']).to.be.a('string');
-                expect(commodity['prices']).to.be.an.instanceof(Array);
+                expect(commodity['data']['title']).to.be.a('string');
+                expect(commodity['data']['prices']).to.be.an.instanceof(Array);
 
                 done();
             });
@@ -49,7 +49,6 @@ describe("test commodity api with superagent", () => {
     it("test GET /url/api/commodity/ with wrong date input number ", (done) => {
         superagent.get(BASE_URL + '/commodity/' + c_id + '/' + start_date)
             .end(function(err, res) {
-
                 expect(err).to.exist;
                 expect(res).to.exist;
                 expect(res.status).to.equal(400);

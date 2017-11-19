@@ -27,16 +27,14 @@ router.get('/:c_id/:start_date/:end_date', function(req, res) {
             if (err === null) {
                 res.set({'content-type': 'application/json;charset=utf-8'});
                 data = { "data": commodity_util.generateResult(data) };
-                res.end(JSON.stringify(data));
+                res.status(200).end(JSON.stringify(data));
             }
             else {
-                res.set({'content-type': 'application/json;charset=utf-8'});
                 res.status(400).end(err.message);
             }
         }, c_id, start_date, end_date);
     }
     else {
-        res.set({'content-type': 'application/json;charset=utf-8'});
         res.status(400).end("Date format error");
     }
 
@@ -56,10 +54,10 @@ router.get('/:c_id', function(req, res) {
 
         if (err === null) {
             res.set({'content-type': 'application/json;charset=utf-8'});
-            res.end(JSON.stringify(commodity_util.generateResult(data)));
+            data = { "data": commodity_util.generateResult(data) };
+            res.status(200).end(JSON.stringify(data));
         }
         else {
-            res.set({'content-type': 'application/json;charset=utf-8'});
             res.status(400).end(err.message);
         }
 
@@ -74,10 +72,7 @@ router.get('/:c_id', function(req, res) {
  * @return {object} {"title": "Bose QC35", "prices": [{"price": 300, "date": "2017-10-29"}, {...}...]}
  */
 router.get('/:c_id/:date', function(req, res) {
-
-    res.set({'content-type': 'application/json;charset=utf-8'});
     res.status(400).end("Missing date parameter");
-
 });
 
 module.exports = router;
