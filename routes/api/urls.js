@@ -32,8 +32,7 @@ router.post('/', function(req, res) {
         }
         else {
             res.set({'content-type': 'application/json;charset=utf-8'});
-            data = { "data": results };
-            res.status(201).end(JSON.stringify(data));
+            res.status(201).end(JSON.stringify({ "data": result }));
         }
     });
 });
