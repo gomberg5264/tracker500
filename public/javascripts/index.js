@@ -27,11 +27,30 @@ function submitUrl() {
     }
 }
 
+function listAllUrls() {
+    $.ajax({
+        type: "get",
+        url:"/api/urls/",
+        async: true,
+        dataType:"json",
+        success: function(data) {
+            console.log(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+}
+
 $('document').ready(function(){
 
     $("#url_submit_btn").click(function() {
 
         submitUrl();
     });
+
+    listAllUrls();
 
 });
