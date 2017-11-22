@@ -27,14 +27,14 @@ function submitUrl() {
     }
 }
 
-function listAllUrls() {
+function listAllUrls(callback) {
     $.ajax({
         type: "get",
         url:"/api/urls/",
         async: true,
         dataType:"json",
         success: function(data) {
-            console.log(data);
+            callback(data);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -47,10 +47,11 @@ function listAllUrls() {
 $('document').ready(function(){
 
     $("#url_submit_btn").click(function() {
-
         submitUrl();
     });
 
-    listAllUrls();
+    listAllUrls((data)=>{
+        console.log(data);
+    });
 
 });
