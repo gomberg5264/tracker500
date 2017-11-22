@@ -9,7 +9,14 @@ block content
     .row
       .col-md-6.col-md-offset-3
         div.form-group
-          label(for='url') Input commodity URL
           input.form-control(type='text' id='url_input' placeholder='http://' name='url')
+      .col-md-3
         button.btn.btn-primary(type='submit' id='url_submit_btn') Submit   
-      .col-md-6
+    
+    table(class='table table-striped')
+      tbody(id='url_tbody')
+        tr
+          th ID
+          th URL
+          th Update
+          th Delete
