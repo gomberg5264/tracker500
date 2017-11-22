@@ -34,7 +34,7 @@ function listAllUrls(callback) {
         async: true,
         dataType:"json",
         success: function(data) {
-            callback(data);
+            callback(data['data']);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -51,7 +51,12 @@ $('document').ready(function(){
     });
 
     listAllUrls((data)=>{
-        console.log(data);
+        for (i in data) {
+            var urlObj = data[i];
+            console.log(urlObj);
+            $('.row').append("<div class='col-md-9 col-md-offset-3'> ID: " + urlObj['c_id']
+                + ", URL: " + urlObj['c_url'] + "</div>");
+        }
     });
 
 });
