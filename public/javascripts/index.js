@@ -54,17 +54,17 @@ $('document').ready(function(){
         for (i in data) {
             var urlObj = data[i];
 
-            var url_id_td = "<td class='urllist_id'>" + urlObj['c_id'] + "</td>";
-            var url_url_td = "<td class='urllist_url'>" + urlObj['c_url'] + "</td>";
+            var url_id_td = "<td class='commodity_id'>" + urlObj['c_id'] + "</td>";
+            var url_url_td = "<td class='commodity_url'>" + urlObj['c_url'] + "</td>";
             var update_td = "<td><a href='#'><i class='fa fa-pencil' aria-hidden='true'></i>&nbsp; Update</a></td>";
             var delete_td = "<td><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>&nbsp; Delete</a></td>";
             $('#url_tbody').append("<tr>" + url_id_td + url_url_td + update_td + delete_td + "</tr>")
         }
 
-        $(".urllist_url").click(function () {
-            var url_id = $(this).prev().text();
-            console.log("click on url id : " + url_id);
-            window.location.href = "/commodity/" + url_id;
+        $(".commodity_url").click(function () {
+            var commodity_id = $(this).prev().text();
+            console.log("click on url id : " + commodity_id);
+            window.location.href = "/commodity/" + commodity_id;
         });
     });
 

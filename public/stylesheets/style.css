@@ -7,6 +7,10 @@ a {
   color: #00B7FF;
 }
 
-.urllist_url {
+.commodity_url {
     cursor: pointer;
+}
+
+.hidden_id {
+    display: none;
 }

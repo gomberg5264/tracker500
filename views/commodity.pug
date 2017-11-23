@@ -1,10 +1,13 @@
 extends layout
 block scripts
   script(src="/javascripts/base.js")
+  script(src="/javascripts/commodity.js")
 
 block content
   .main.container
     h1= title
+    p(class='hidden_id')= id
+
     .row
       .col-md-6.col-md-offset-3
       .col-md-3
