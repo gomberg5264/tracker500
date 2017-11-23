@@ -64,7 +64,7 @@ $('document').ready(function(){
         $(".urllist_url").click(function () {
             var url_id = $(this).prev().text();
             console.log("click on url id : " + url_id);
-
+            window.location.href = "/commodity/" + url_id;
         });
     });
 

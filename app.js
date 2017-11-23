@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
+var commodity = require('./routes/commodity');
 var users = require('./routes/users');
 var api_urls = require('./routes/api/urls')
 var api_commodity = require('./routes/api/commodity')
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/commodity', commodity);
 app.use('/users', users);
 app.use('/api/urls', api_urls);
 app.use('/api/commodity', api_commodity);
