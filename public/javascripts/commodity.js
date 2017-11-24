@@ -24,12 +24,12 @@ $('document').ready(function(){
         var title = data['title'];
         var prices = data['prices'];
 
-        $("h3").text(title);
+        $(".main h3").text(title);
 
         for (i in prices) {
             var priceObj = prices[i];
 
-            var commodity_price_td = "<td>" + priceObj['price'] + "</td>"
+            var commodity_price_td = "<td>" + Math.round(priceObj['price']*100)/100 + "</td>"
             var commodity_date_td = "<td>" + priceObj['date'] + "</td>"
             $('#commodity_tbody').append("<tr>" + commodity_price_td + commodity_date_td + "</tr>");
 
