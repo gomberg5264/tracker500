@@ -62,22 +62,27 @@ describe("flushing test data through database", function () {
 
     it("should be able to update an url", function (done) {
         var new_url = url[random_index];
-        console.log("random_index = " + random_index);
-        console.log("insert_c_id = " + insert_c_id);
         urls_models.updateUrl(dbcfg, new_url, insert_c_id, (err, result) => {
             console.log("update results: " + result);
             expect(err).not.to.exist;
             expect(result['c_id']).to.equal(insert_c_id);
             expect(result['c_url']).to.equal(new_url);
+            done();
+        });
+    });
 
-            // function findUrl(element) {
-            //         return element.c_url === url[1];
-            // }
-            // console.log("results.length = " + results.length);
-            // console.log("results.find(findUrl)" + results.find(findUrl));
-            // if (results.find(findUrl) === undefined) throw new Error("fail to find the inserted url");
-            // if (results.length !== record_count + 1) throw new Error("record count is not incremented by one");
-            // record_count = results.length;
+    it("should be able to check the updated url is really updated", function (done) {
+        var new_url = url[random_index];
+        urls_models.listAllUrls(dbcfg, (err, results) => {
+            expect(err).not.to.exist;
+            var foundUrl = false;
+            for(i in results) {
+                if (results[i]['c_id'] === insert_c_id && results[i]['c_url'] === new_url) {
+                    foundUrl = true;
+                    break;
+                }
+            }
+            if(!foundUrl) throw new Error("fail to found the updated url");
             done();
         });
     });
@@ -97,7 +102,7 @@ describe("flushing test data through database", function () {
             }
             console.log("results.length = " + results.length);
             console.log("results.find(findUrl)" + results.find(findUrl));
-            if (results.find(findUrl) !== undefined) throw new Error("fail to delete the updateed url");
+            if (results.find(findUrl) !== undefined) throw new Error("fail to delete the updated url");
             if (results.length != record_count - 1) throw new Error("record count is not incremented by one");
             done();
         });
