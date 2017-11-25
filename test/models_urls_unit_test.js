@@ -93,11 +93,11 @@ describe("flushing test data through database", function () {
         urls_models.listAllUrls(dbcfg, (err, results) => {
             expect(err).not.to.exist;
             function findUrl(element) {
-                    return element.c_url === url[1];
+                    return element.c_url === url[random_index];
             }
             console.log("results.length = " + results.length);
             console.log("results.find(findUrl)" + results.find(findUrl));
-            if (results.find(findUrl) !== undefined) throw new Error("fail to find the inserted url");
+            if (results.find(findUrl) !== undefined) throw new Error("fail to delete the updateed url");
             if (results.length != record_count - 1) throw new Error("record count is not incremented by one");
             done();
         });
