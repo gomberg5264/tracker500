@@ -25,7 +25,7 @@ function insertUrl(dbcfg, url, callback) {
 
     stage.queryInt("select LAST_INSERT_ID()");
     stage.finale((err, results) => {
-        console.log("output results :" + JSON.stringify(results));  //  insert op return 1, select op return id
+        //  insert op return 1, select op return id
         if (err)
             return callback(err);
         else if (results.length != 2)
@@ -54,9 +54,17 @@ function deleteUrl(dbcfg, url, callback) {
         "DELETE FROM commodity_url WHERE c_url=?", [url]).finale(callback);
 }
 
+//
+//  description: update the url with specified url_id
+//
+function updateUrl(dbcfg, url, url_id, callback) {
+
+}
+
 module.exports = {
   init: init,
   insertUrl: insertUrl,
   listAllUrls: listAllUrls,
-  deleteUrl:deleteUrl
+  deleteUrl:deleteUrl,
+  updateUrl:updateUrl
 };

@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-var dbcfg = require('../config/db.json');
+var dbcfg = require('../config/db_test.json');
 var urls_models = require("../models/urls")
 
 var url = [
@@ -11,6 +11,8 @@ var url = [
  ];
 
  var record_count;
+
+ var insert_c_id;
 
 describe("flushing test data through database", function () {
 
@@ -37,6 +39,7 @@ describe("flushing test data through database", function () {
             if (typeof(result['c_id']) != "number" || !Number.isInteger(result['c_id']))
                             throw new Error("Non-Integer returned on insertation");
             if (!(result["c_url"]===url[1])) throw new Error("it fails to insert url to db");
+            insert_c_id = result['c_id'];
             done();
         });
     });
@@ -52,6 +55,30 @@ describe("flushing test data through database", function () {
             if (results.find(findUrl) === undefined) throw new Error("fail to find the inserted url");
             if (results.length !== record_count + 1) throw new Error("record count is not incremented by one");
             record_count = results.length;
+            done();
+        });
+    });
+
+    it("should be able to update an url", function (done) {
+        var random_indx = Math.floor(Math.random()*4);
+        var new_url = url[random_indx];
+        console.log("random_index = " + random_indx);
+        console.log("insert_c_id = " + insert_c_id);
+        urls_models.updateUrl(dbcfg, new_url, insert_c_id, (err, result) => {
+            expect(err).not.to.exist;
+
+            expect(result['c_id']).to.equal(insert_c_id);
+            expect(result['c_url']).to.equal(new_url);
+
+
+            // function findUrl(element) {
+            //         return element.c_url === url[1];
+            // }
+            // console.log("results.length = " + results.length);
+            // console.log("results.find(findUrl)" + results.find(findUrl));
+            // if (results.find(findUrl) === undefined) throw new Error("fail to find the inserted url");
+            // if (results.length !== record_count + 1) throw new Error("record count is not incremented by one");
+            // record_count = results.length;
             done();
         });
     });

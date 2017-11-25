@@ -50,4 +50,22 @@ router.delete('/', function(req, res) {
     });
 });
 
+//  insert a url into db
+//  return value is a JSON Object
+router.put('/', function(req, res) {
+    if (req.originalUrl.slice(-1) != '/') {
+      console.log("Output originalUrl" + req.originalUrl);
+      return res.redirect(req.originalUrl + '/');
+    }
+    urls_models.updateUrl(dbcfg, req.body['url'], url_id, function(err, result) {
+        if (err) {
+            res.status(400).end(err);
+        }
+        else {
+            res.set({'content-type': 'application/json;charset=utf-8'});
+            res.status(201).end(JSON.stringify({ "data": result }));
+        }
+    });
+});
+
 module.exports = router;
