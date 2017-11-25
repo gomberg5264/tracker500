@@ -34,7 +34,7 @@ function insertUrl(dbcfg, url, callback) {
             return callback(err, {
                 "c_id": results[1],
                 "c_url": url
-        });
+            });
     });
 }
 
@@ -57,8 +57,22 @@ function deleteUrl(dbcfg, url, callback) {
 //
 //  description: update the url with specified url_id
 //
-function updateUrl(dbcfg, url, url_id, callback) {
-
+function updateUrl(dbcfg, url, c_id, callback) {
+    var stage = db.stage(dbcfg);
+    stage.execute("UPDATE commodity_url SET `c_url`=? WHERE `c_id`=?", [url, c_id]);
+    stage.queryInt("SELECT * FROM commodity_url WHERE `c_id`=?", [c_id]);
+    stage.finale((err, results) => {
+        //  insert op return 1, select op return id
+        if (err)
+            return callback(err);
+        else if (results.length != 2)
+            return callback(new Error("Internal error: incorrect number of results returned"));
+        else
+            return callback(err, {
+                "c_id": results[1],
+                "c_url": url}
+            );
+    });
 }
 
 module.exports = {

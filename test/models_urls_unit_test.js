@@ -13,6 +13,7 @@ var url = [
  var record_count;
 
  var insert_c_id;
+ var random_index = Math.floor(Math.random()*4);
 
 describe("flushing test data through database", function () {
 
@@ -60,16 +61,14 @@ describe("flushing test data through database", function () {
     });
 
     it("should be able to update an url", function (done) {
-        var random_indx = Math.floor(Math.random()*4);
-        var new_url = url[random_indx];
-        console.log("random_index = " + random_indx);
+        var new_url = url[random_index];
+        console.log("random_index = " + random_index);
         console.log("insert_c_id = " + insert_c_id);
         urls_models.updateUrl(dbcfg, new_url, insert_c_id, (err, result) => {
+            console.log("update results: " + result);
             expect(err).not.to.exist;
-
             expect(result['c_id']).to.equal(insert_c_id);
             expect(result['c_url']).to.equal(new_url);
-
 
             // function findUrl(element) {
             //         return element.c_url === url[1];
@@ -84,7 +83,7 @@ describe("flushing test data through database", function () {
     });
 
     it("should be able to delete a url", function (done) {
-        urls_models.deleteUrl(dbcfg, url[1], (err, results) => {
+        urls_models.deleteUrl(dbcfg, url[random_index], (err, results) => {
             expect(err).not.to.exist;
             done();
         });
