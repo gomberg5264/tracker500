@@ -28,7 +28,6 @@ describe("flushing test data through database", function () {
         urls_models.listAllUrls(dbcfg, (err, results) => {
             expect(err).not.to.exist;
             record_count = results.length;
-            console.log("record count = " + record_count);
             done();
         });
     });
@@ -51,8 +50,6 @@ describe("flushing test data through database", function () {
             function findUrl(element) {
                     return element.c_url === url[1];
             }
-            console.log("results.length = " + results.length);
-            console.log("results.find(findUrl)" + results.find(findUrl));
             if (results.find(findUrl) === undefined) throw new Error("fail to find the inserted url");
             if (results.length !== record_count + 1) throw new Error("record count is not incremented by one");
             record_count = results.length;
@@ -63,7 +60,6 @@ describe("flushing test data through database", function () {
     it("should be able to update an url", function (done) {
         var new_url = url[random_index];
         urls_models.updateUrl(dbcfg, new_url, insert_c_id, (err, result) => {
-            console.log("update results: " + result);
             expect(err).not.to.exist;
             expect(result['c_id']).to.equal(insert_c_id);
             expect(result['c_url']).to.equal(new_url);
@@ -100,8 +96,6 @@ describe("flushing test data through database", function () {
             function findUrl(element) {
                     return element.c_url === url[random_index];
             }
-            console.log("results.length = " + results.length);
-            console.log("results.find(findUrl)" + results.find(findUrl));
             if (results.find(findUrl) !== undefined) throw new Error("fail to delete the updated url");
             if (results.length != record_count - 1) throw new Error("record count is not incremented by one");
             done();
