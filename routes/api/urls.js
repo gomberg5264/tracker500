@@ -12,9 +12,14 @@ router.get('/', function(req, res) {
       return res.redirect(req.originalUrl + '/');
     }
     urls_models.listAllUrls(dbcfg, function(err, results) {
-        res.set({'content-type': 'application/json;charset=utf-8'});
-        data = { "data": results };
-        res.status(200).end(JSON.stringify(data));
+        if (err) {
+            res.status(400).end(err.message);
+        }
+        else {
+            res.set({'content-type': 'application/json;charset=utf-8'});
+            data = { "data": results };
+            res.status(200).end(JSON.stringify(data));
+        }
     });
 });
 
@@ -28,7 +33,7 @@ router.post('/', function(req, res) {
     }
     urls_models.insertUrl(dbcfg, req.body['url'], function(err, result) {
         if (err) {
-            res.status(400).end(err);
+            res.status(400).end(err.message);
         }
         else {
             res.set({'content-type': 'application/json;charset=utf-8'});
@@ -42,7 +47,7 @@ router.post('/', function(req, res) {
 router.delete('/', function(req, res) {
     urls_models.deleteUrl(dbcfg, req.body['url'], function(err, result) {
         if (err) {
-            res.status(400).end(err);
+            res.status(400).end(err.message);
         }
         else {
             res.status(204).end();
@@ -62,7 +67,7 @@ router.put('/:c_id', function(req, res) {
     }
     urls_models.updateUrl(dbcfg, c_url, c_id, function(err, result) {
         if (err) {
-            res.status(400).end(err);
+            res.status(400).end(err.message);
         }
         else {
             res.set({'content-type': 'application/json;charset=utf-8'});
