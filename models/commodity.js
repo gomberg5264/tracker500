@@ -26,11 +26,11 @@ function quertPrices(dbcfg, callback, c_id, start_date, end_date) {
 
     if((start_date === undefined && end_date !== undefined) ||
         (start_date !== undefined && end_date === undefined)) {
-        return callback(new Error('one of start_date and end_date missed'));
+        return callback('one of start_date and end_date missed', null);
     }
 
     if(start_date > end_date) {
-        return callback(new Error('start_date is behind end_date!'));
+        return callback('start_date is behind end_date!', null);
     }
 
     var date_filter = "";
@@ -61,7 +61,7 @@ function insertUrl(dbcfg, url, callback) {
         if (err)
             return callback(err);
         else if (results.length != 2)
-            return callback(new Error("Internal error: incorrect number of results returned"));
+            return callback("Internal error: incorrect number of results returned", null);
         else
             return callback(err, {
                 "c_id": results[1],

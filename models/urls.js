@@ -29,7 +29,7 @@ function insertUrl(dbcfg, url, callback) {
         if (err)
             return callback(err);
         else if (results.length != 2)
-            return callback(new Error("Internal error: incorrect number of results returned"));
+            return callback("Internal error: incorrect number of results returned", null);
         else
             return callback(err, {
                 "c_id": results[1],
@@ -62,16 +62,21 @@ function updateUrl(dbcfg, url, c_id, callback) {
     stage.execute("UPDATE commodity_url SET `c_url`=? WHERE `c_id`=?", [url, c_id]);
     stage.queryInt("SELECT * FROM commodity_url WHERE `c_id`=?", [c_id]);
     stage.finale((err, results) => {
+        console.log(results);
         //  insert op return 1, select op return id
         if (err)
             return callback(err);
         else if (results.length != 2)
-            return callback(new Error("Internal error: incorrect number of results returned"));
-        else
+            return callback("Internal error: incorrect number of results returned", null);
+        else if (results[1] === undefined) {
+            return callback("Internal error: Can't find the commodity according to the c_id", null);
+        }
+        else {
             return callback(err, {
                 "c_id": results[1],
                 "c_url": url}
             );
+        }
     });
 }
 

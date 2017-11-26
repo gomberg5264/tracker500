@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var urls_models = require("../../models/urls")
-var dbcfg = require('../../config/db.json');
+var dbcfg = require('../../config/db_test.json');
 
 //  query all urls
 //  return value is a JSON Array or empty Array
@@ -52,18 +52,21 @@ router.delete('/', function(req, res) {
 
 //  insert a url into db
 //  return value is a JSON Object
-router.put('/', function(req, res) {
-    if (req.originalUrl.slice(-1) != '/') {
-      console.log("Output originalUrl" + req.originalUrl);
-      return res.redirect(req.originalUrl + '/');
+router.put('/:c_id', function(req, res) {
+
+    var c_id = parseInt(req.params['c_id']);
+    var c_url = req.body['url'];
+    if (c_url === undefined) {
+        res.status(400).end("Invalid Parameter");
+        return;
     }
-    urls_models.updateUrl(dbcfg, req.body['url'], url_id, function(err, result) {
+    urls_models.updateUrl(dbcfg, c_url, c_id, function(err, result) {
         if (err) {
             res.status(400).end(err);
         }
         else {
             res.set({'content-type': 'application/json;charset=utf-8'});
-            res.status(201).end(JSON.stringify({ "data": result }));
+            res.status(200).end(JSON.stringify({ "data": result }));
         }
     });
 });
