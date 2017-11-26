@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var urls_models = require("../../models/urls")
+// var dbcfg = require('../../config/db_test.json');
 var dbcfg = require('../../config/db.json');
 
 //  query all urls
@@ -26,13 +27,11 @@ router.get('/', function(req, res) {
 //  insert a url into db
 //  return value is a JSON Object
 router.post('/', function(req, res) {
-    // make sure we end with a slash, so that relative links point *into* this router
-    if (req.originalUrl.slice(-1) != '/') {
-      console.log("Output originalUrl" + req.originalUrl);
-      return res.redirect(req.originalUrl + '/');
-    }
+
+    console.log("body : " + req.body['url']);
     urls_models.insertUrl(dbcfg, req.body['url'], function(err, result) {
         if (err) {
+            console.log(err.message);
             res.status(400).end(err.message);
         }
         else {
