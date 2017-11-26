@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var dbcfg = require('../../config/db_test.json');
+var dbcfg = require('../../config/db.json');
 var commodity_models = require("../../models/commodity")
 var commodity_util = require('./commodity_util');
 var moment = require('moment');

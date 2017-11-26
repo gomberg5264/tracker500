@@ -62,6 +62,9 @@ $('document').ready(function(){
         }
 
         $(".commodity_url").click(function () {
+            //  save the commodity url to Browser session
+            localStorage.setItem("c_url", $(this).prev().next().text());
+            //  jump to commodity page
             var commodity_id = $(this).prev().text();
             console.log("click on url id : " + commodity_id);
             window.location.href = "/commodity/" + commodity_id;

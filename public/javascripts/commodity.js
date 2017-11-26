@@ -24,7 +24,8 @@ $('document').ready(function(){
         var title = data['title'];
         var prices = data['prices'];
 
-        $(".main h3").text(title);
+        $(".commodity_title").text(title);
+        $(".commodity_title").attr('href', localStorage.getItem("c_url"));
 
         for (i in prices) {
             var priceObj = prices[i];
@@ -33,11 +34,6 @@ $('document').ready(function(){
             var commodity_date_td = "<td>" + priceObj['date'] + "</td>"
             $('#commodity_tbody').append("<tr>" + commodity_price_td + commodity_date_td + "</tr>");
 
-            // var url_id_td = "<td class='urllist_id'>" + urlObj['c_id'] + "</td>";
-            // var url_url_td = "<td class='urllist_url'>" + urlObj['c_url'] + "</td>";
-            // var update_td = "<td><a href='#'><i class='fa fa-pencil' aria-hidden='true'></i>&nbsp; Update</a></td>";
-            // var delete_td = "<td><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>&nbsp; Delete</a></td>";
-            // $('#url_tbody').append("<tr>" + url_id_td + url_url_td + update_td + delete_td + "</tr>")
         }
     });
 

@@ -14,3 +14,7 @@ a {
 .hidden_id {
     display: none;
 }
+
+.commodity_title {
+    font-size: 200%;
+}
