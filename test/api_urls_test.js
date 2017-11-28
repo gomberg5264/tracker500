@@ -21,17 +21,19 @@ var url2 = [
     "https://www.amazon.com/PlayStation-Slim-500GB-Console-Discontinued-4/dp/B01LRLJV28",
     "https://www.amazon.com/DualShock-Wireless-Controller-PlayStation-Black-4/dp/B01LWVX2RG"
 ];
+
+var c_id;
+
 describe("test url api with superagent", () => {
     it("test GET /url/api/urls/", (done) => {
         superagent.get(BASE_URL + '/urls')
             .end(function(err, res) {
-                expect(err).to.not.exist;
-                expect(res).to.exist;
+                // expect(err).to.not.exist;
                 expect(res.status).to.equal(200);
                 expect(res.text).to.exist;
 
                 var urls = JSON.parse(res.text);
-                expect(urls).to.be.an.instanceof(Array);
+                expect(urls['data']).to.be.an.instanceof(Array);
 
                 done();
             });
@@ -40,16 +42,16 @@ describe("test url api with superagent", () => {
     it("test Insert url API", (done) => {
         superagent.post(BASE_URL + '/urls/')
             .type('form')
-            .send({"url":url[3]})
+            .send({"url":url[0]})
             .end(function(err, res) {
-                expect(err).to.not.exist;
-                expect(res).to.exist;
+                // expect(err).to.not.exist;
                 expect(res.status).to.equal(201);
                 expect(res.text).to.exist;
 
                 var returnUrl = JSON.parse(res.text);
-                expect(returnUrl).to.be.an('object').that.is.not.empty;
-                expect(returnUrl['c_url']).to.equal(url[3])
+                expect(returnUrl['data']).to.be.an('object').that.is.not.empty;
+                expect(returnUrl['data']['c_url']).to.equal(url[0]);
+                c_id = returnUrl['data']['c_id'];
                 done();
             });
     });
@@ -57,18 +59,49 @@ describe("test url api with superagent", () => {
     it("test whether url is inserted", (done) => {
         superagent.get(BASE_URL + '/urls/')
             .end(function(err, res) {
-                expect(err).to.not.exist;
-                expect(res).to.exist;
+                // expect(err).to.not.exist;
                 expect(res.status).to.equal(200);
                 expect(res.text).to.exist;
 
                 var urls = JSON.parse(res.text);
-                expect(urls).to.be.an.instanceof(Array);
+                expect(urls['data']).to.be.an.instanceof(Array);
 
                 function findUrl(element) {
                         return element.c_url === url[0];
                 }
-                if (urls.find(findUrl) === undefined) throw new Error("fail to find the inserted url");
+                if (urls['data'].find(findUrl) === undefined) throw new Error("fail to find the inserted url");
+                done();
+            });
+    });
+
+    it("test update url API", (done) => {
+        superagent.put(BASE_URL + '/urls/' + c_id)
+            .type('form')
+            .send({"url":url[1]})
+            .end(function(err, res) {
+                // expect(err).to.not.exist;
+                expect(res.status).to.equal(200);
+                expect(res.text).to.exist;
+
+                done();
+            });
+    });
+
+    it("test whether url is updated successfully", (done) => {
+
+        superagent.get(BASE_URL + '/urls/')
+            .end(function(err, res) {
+                // expect(err).to.not.exist;
+                expect(res.status).to.equal(200);
+                expect(res.text).to.exist;
+
+                var urls = JSON.parse(res.text);
+                expect(urls['data']).to.be.an.instanceof(Array);
+
+                function findUrl(element) {
+                        return element.c_url === url[1];
+                }
+                if (urls['data'].find(findUrl) === undefined) throw new Error("fail to find the inserted url");
                 done();
             });
     });
@@ -79,7 +112,6 @@ describe("test url api with superagent", () => {
             .send({"url":url[1]})
             .end(function(err, res) {
                 expect(err).to.not.exist;
-                expect(res).to.exist;
                 expect(res.status).to.equal(204);
                 expect(res.text).to.exist;
 
@@ -91,17 +123,16 @@ describe("test url api with superagent", () => {
         superagent.get(BASE_URL + '/urls/')
             .end(function(err, res) {
                 expect(err).to.not.exist;
-                expect(res).to.exist;
                 expect(res.status).to.equal(200);
                 expect(res.text).to.exist;
 
                 var urls = JSON.parse(res.text);
-                expect(urls).to.be.an.instanceof(Array);
+                expect(urls['data']).to.be.an.instanceof(Array);
 
                 function findUrl(element) {
                         return element.c_url === url[1];
                 }
-                if (urls.find(findUrl) !== undefined) throw new Error("the url is still in db");
+                if (urls['data'].find(findUrl) !== undefined) throw new Error("the url is still in db");
                 done();
             });
     });

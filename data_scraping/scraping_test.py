@@ -43,6 +43,8 @@ class Commodity:
             self.title = str_title.strip()
 
         # retrieve price
+        print(soup)
+
         for price_tag in soup.find_all(id="priceblock_ourprice"):
             str_price = price_tag.text
             if str_price.find('\n') == -1:
@@ -65,6 +67,8 @@ class Commodity:
 
 
 urls = [
+    "https://www.amazon.com/PlayStation-Slim-500GB-Console-Discontinued-4/dp/B01LRLJV28",
+    "https://www.amazon.com/PlayStation-4-Pro-1TB-Console/dp/B01LOP8EZC?th=1",
     "https://www.amazon.com/God-War-3-Remastered-PlayStation-4/dp/B00USM22DI",
     "https://www.amazon.com/dp/B073TS5FSK/ref=dp_sp_detail?psc=1",
     "https://www.amazon.com/dp/B00T8VQTGQ",
@@ -76,6 +80,6 @@ urls = [
     "https://www.amazon.com/JBL-Wireless-Bluetooth-Speaker-Pairing/dp/B00GOF0ZQ4/ref=sr_1_5?ie=UTF8&qid=1508884897&sr=8-5&keywords=jbl+pulse"
 ]
 
-commodity = Commodity(0, urls[1])
+commodity = Commodity(0, urls[0])
 commodity.retrieve_info()
 commodity.print_commodity()
