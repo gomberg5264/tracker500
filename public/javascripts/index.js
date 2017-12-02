@@ -54,21 +54,21 @@ $('document').ready(function(){
         for (i in data) {
             var urlObj = data[i];
 
-            var url_id_td = "<td class='commodity_id'>" + urlObj['c_id'] + "</td>";
-            var url_url_td = "<td class='commodity_url'>" + urlObj['c_url'] + "</td>";
+            var url_id_td = "<td class='commodity_id'><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
+            var url_url_td = "<td class='commodity_url'><a href='" + urlObj['c_url'] + "'>" + urlObj['c_url'] + "</a></td>";
             var update_td = "<td><a href='#'><i class='fa fa-pencil' aria-hidden='true'></i>&nbsp; Update</a></td>";
             var delete_td = "<td><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>&nbsp; Delete</a></td>";
             $('#url_tbody').append("<tr>" + url_id_td + url_url_td + update_td + delete_td + "</tr>")
         }
 
-        $(".commodity_url").click(function () {
-            //  save the commodity url to Browser session
-            localStorage.setItem("c_url", $(this).prev().next().text());
-            //  jump to commodity page
-            var commodity_id = $(this).prev().text();
-            console.log("click on url id : " + commodity_id);
-            window.location.href = "/commodity/" + commodity_id;
-        });
+        // $(".commodity_url").click(function () {
+        //     //  save the commodity url to Browser session
+        //     localStorage.setItem("c_url", $(this).prev().next().text());
+        //     //  jump to commodity page
+        //     var commodity_id = $(this).prev().text();
+        //     console.log("click on url id : " + commodity_id);
+        //     window.location.href = "/commodity/" + commodity_id;
+        // });
     });
 
 });
