@@ -44,6 +44,24 @@ function listAllUrls(callback) {
     });
 }
 
+function deleteUrl(url_value, callback) {
+    $.ajax({
+        type: "delete",
+        url:"/api/urls/",
+        async: true,
+        dataType:"json",
+        data:{"url":url_value},
+        success: function(data) {
+            callback(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+}
+
 $('document').ready(function(){
 
     $("#url_submit_btn").click(function() {
@@ -57,7 +75,7 @@ $('document').ready(function(){
             var url_id_td = "<td class='commodity_id'><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
             var url_url_td = "<td class='commodity_url'><a href='" + urlObj['c_url'] + "'>" + urlObj['c_url'] + "</a></td>";
             var update_td = "<td><a href='#'><i class='fa fa-pencil' aria-hidden='true'></i>&nbsp; Update</a></td>";
-            var delete_td = "<td><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>&nbsp; Delete</a></td>";
+            var delete_td = "<td class='delete_url_btn'><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>&nbsp; Delete</a></td>";
             $('#url_tbody').append("<tr>" + url_id_td + url_url_td + update_td + delete_td + "</tr>")
         }
 
@@ -69,6 +87,13 @@ $('document').ready(function(){
         //     console.log("click on url id : " + commodity_id);
         //     window.location.href = "/commodity/" + commodity_id;
         // });
+
+        $('.delete_url_btn').on('click', function(){
+            var commodity_url = $(this).prev().prev().text();
+            deleteUrl(commodity_url, function (){
+                console.log("delete url successfully: " + commodity_url);
+            });
+        });
     });
 
 });
