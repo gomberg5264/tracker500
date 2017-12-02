@@ -89,11 +89,19 @@ $('document').ready(function(){
         // });
 
         $('.delete_url_btn').on('click', function(){
+
             var commodity_url = $(this).prev().prev().text();
-            deleteUrl(commodity_url, function (){
-                console.log("delete url successfully: " + commodity_url);
-                window.location.href = "/";
-            });
+            var msg = "Are you sure to delete the url '" + commodity_url + "' ?";
+            if (confirm(msg) == true) {
+                deleteUrl(commodity_url, function (){
+                    console.log("delete url successfully: " + commodity_url);
+                    window.location.href = "/";
+                });
+                return true;
+    		}
+    		else {
+    			return false;
+    		}
         });
     });
 
