@@ -92,6 +92,7 @@ $('document').ready(function(){
             var commodity_url = $(this).prev().prev().text();
             deleteUrl(commodity_url, function (){
                 console.log("delete url successfully: " + commodity_url);
+                window.location.href = "/";
             });
         });
     });
