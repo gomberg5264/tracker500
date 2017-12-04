@@ -33,7 +33,8 @@ function insertUrl(dbcfg, url, callback) {
         else
             return callback(err, {
                 "c_id": results[1],
-                "c_url": url
+                "c_url": url,
+                "c_title": ""
             });
     });
 }
@@ -74,8 +75,9 @@ function updateUrl(dbcfg, url, c_id, callback) {
         else {
             return callback(err, {
                 "c_id": results[1],
-                "c_url": url}
-            );
+                "c_url": url,
+                "c_title": ""
+            });
         }
     });
 }
