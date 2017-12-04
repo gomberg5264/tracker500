@@ -8,6 +8,13 @@ var end_date = "2017-11-11";
 
 describe("test models of commodity", function () {
 
+    it("should be able to create schema", function (done) {
+        commodity_models.init(dbcfg, (err) => {
+            expect(err).not.to.exist;
+            done();
+        });
+    });
+
     it("should be able to list all prices with limitation of date", function (done) {
         commodity_models.queryPrices(dbcfg, (err, results) => {
             expect(err).not.to.exist;
