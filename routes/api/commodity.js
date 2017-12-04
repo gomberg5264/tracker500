@@ -22,7 +22,7 @@ router.get('/:c_id/:start_date/:end_date', function(req, res) {
     if(moment(start_date, "YYYY-MM-DD", true).isValid()
         && moment(end_date, "YYYY-MM-DD", true).isValid()) {
 
-        commodity_models.quertPrices(dbcfg, function(err, data) {
+        commodity_models.queryPrices(dbcfg, function(err, data) {
 
             if (err === null) {
                 res.set({'content-type': 'application/json;charset=utf-8'});
@@ -50,7 +50,7 @@ router.get('/:c_id', function(req, res) {
 
     var c_id = req.params['c_id'];
 
-    commodity_models.quertPrices(dbcfg, function(err, data) {
+    commodity_models.queryPrices(dbcfg, function(err, data) {
 
         if (err === null) {
             res.set({'content-type': 'application/json;charset=utf-8'});

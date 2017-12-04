@@ -22,7 +22,7 @@ function init(dbcfg, callback) {
  * @param {string} end_date
  * @return {array} [{'r_id', 'c_title', 'c_price', 'r_date}, {...}, ...]
  */
-function quertPrices(dbcfg, callback, c_id, start_date, end_date) {
+function queryPrices(dbcfg, callback, c_id, start_date, end_date) {
 
     if((start_date === undefined && end_date !== undefined) ||
         (start_date !== undefined && end_date === undefined)) {
@@ -88,7 +88,7 @@ function deleteUrl(dbcfg, url, callback) {
 
 module.exports = {
   init: init,
-  quertPrices: quertPrices,
+  queryPrices: queryPrices,
   insertUrl: insertUrl,
   listAllUrls: listAllUrls,
   deleteUrl:deleteUrl

@@ -9,7 +9,7 @@ var end_date = "2017-11-11";
 describe("test models of commodity", function () {
 
     it("should be able to list all prices with limitation of date", function (done) {
-        commodity_models.quertPrices(dbcfg, (err, results) => {
+        commodity_models.queryPrices(dbcfg, (err, results) => {
             expect(err).not.to.exist;
 
             expect(results.length).not.to.equal(0);
@@ -29,7 +29,7 @@ describe("test models of commodity", function () {
     });
 
     it("should be able to list all prices without limitation of date", function (done) {
-        commodity_models.quertPrices(dbcfg, (err, results) => {
+        commodity_models.queryPrices(dbcfg, (err, results) => {
             expect(err).not.to.exist;
             for(var i=0; i<results.length; i++) {
                 if (i+1 < results.length) {
@@ -42,14 +42,14 @@ describe("test models of commodity", function () {
     });
 
     it("should not be able to list all prices, because one of start or end date is missed", function (done) {
-        commodity_models.quertPrices(dbcfg, (err, results) => {
+        commodity_models.queryPrices(dbcfg, (err, results) => {
             expect(err).to.exist;
             done();
         }, c_id, start_date);
     });
 
     it("should not be able to list all prices, because end_date is behind start_date", function (done) {
-        commodity_models.quertPrices(dbcfg, (err, results) => {
+        commodity_models.queryPrices(dbcfg, (err, results) => {
             expect(err).to.exist;
             done();
         }, c_id, end_date, start_date);
