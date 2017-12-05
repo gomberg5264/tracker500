@@ -62,6 +62,24 @@ function deleteUrl(url_value, callback) {
     });
 }
 
+function updateUrl(commodity_id, url_value, callback) {
+    $.ajax({
+        type: "put",
+        url:"/api/urls/" + commodity_id,
+        async: true,
+        dataType:"json",
+        data:{"url":url_value},
+        success: function(data) {
+            callback(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+}
+
 $('document').ready(function(){
 
     $("#url_submit_btn").click(function() {
