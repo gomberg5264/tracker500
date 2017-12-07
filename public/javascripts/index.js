@@ -97,15 +97,6 @@ $('document').ready(function(){
             $('#url_tbody').append("<tr id='tr_" + urlObj['c_id'] + "'>" + url_id_td + url_url_td + update_td + delete_td + "</tr>")
         }
 
-        // $(".commodity_url").click(function () {
-        //     //  save the commodity url to Browser session
-        //     localStorage.setItem("c_url", $(this).prev().next().text());
-        //     //  jump to commodity page
-        //     var commodity_id = $(this).prev().text();
-        //     console.log("click on url id : " + commodity_id);
-        //     window.location.href = "/commodity/" + commodity_id;
-        // });
-
         $('.delete_url_btn').on('click', function(){
 
             var commodity_url = $(this).prev().prev().text();
