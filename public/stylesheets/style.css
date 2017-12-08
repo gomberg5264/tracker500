@@ -18,3 +18,7 @@ a {
 .commodity_title {
     font-size: 200%;
 }
+
+.table tbody tr td{
+    vertical-align: middle;
+}
