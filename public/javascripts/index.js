@@ -93,14 +93,15 @@ $('document').ready(function(){
             var url_id_td = "<td class='commodity_id'><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
             var url_url_td = "<td class='commodity_url'><a href='" + urlObj['c_url'] + "'>" + urlObj['c_url'] + "</a></td>";
             var update_td = "<td class='update_url_btn'><a href='#'><i class='fa fa-pencil' aria-hidden='true'></i>&nbsp; Update</a></td>";
-            var delete_td = "<td class='delete_url_btn'><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>&nbsp; Delete</a></td>";
+            // var delete_td = "<td class='delete_url_btn'><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>&nbsp; Delete</a></td>";
+            var delete_td = "<td><button class='btn btn-primary delete_url_btn' type='submit' id='delete_btn_" + urlObj['c_id'] + "'>delete</button></td>"
             $('#url_tbody').append("<tr id='tr_" + urlObj['c_id'] + "'>" + url_id_td + url_url_td + update_td + delete_td + "</tr>")
         }
 
         $('.delete_url_btn').on('click', function(){
 
-            var commodity_url = $(this).prev().prev().text();
-            var commodity_id = $(this).prev().prev().prev().text();
+            var commodity_id = $(this).attr('id').substring("delete_btn_".length);
+            var commodity_url = $(this).parent().prev().prev().text();
             var msg = "Are you sure to delete the url '" + commodity_url + "' ?";
             if (confirm(msg) == true) {
                 deleteUrl(commodity_url, function (){
