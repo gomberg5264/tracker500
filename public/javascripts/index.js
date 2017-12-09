@@ -90,7 +90,7 @@ function onCancelButton() {
 
 $('document').ready(function(){
 
-    $("#url_submit_btn").click(function() {
+    $("#url_submit_btn").on('click', function() {
         submitUrl();
     });
 
@@ -100,7 +100,7 @@ $('document').ready(function(){
 
             var url_id_td = "<td><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
             var url_url_td = "<td><a href='" + urlObj['c_url'] + "'>" + urlObj['c_url'] + "</a></td>";
-            var update_td = "<td><button class='btn btn-primary update_url_btn' type='submit' id='update_btn_" + urlObj['c_id'] + "'>update</button></td>";
+            var update_td = "<td><button class='btn btn-primary update_url_btn' type='submit' id='update_btn_" + urlObj['c_id'] + "' state='pre_update'>update</button></td>";
             // var update_td = "<td class='update_url_btn'><a href='#'><i class='fa fa-pencil' aria-hidden='true'></i>&nbsp; Update</a></td>";
             // var delete_td = "<td class='delete_url_btn'><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>&nbsp; Delete</a></td>";
             var delete_td = "<td><button class='btn btn-primary delete_url_btn' type='submit' id='delete_btn_" + urlObj['c_id'] + "'>delete</button></td>";
@@ -125,22 +125,41 @@ $('document').ready(function(){
         });
 
         $('.update_url_btn').on('click', function(){
+            var state = $(this).attr('state');
+            if (state === 'pre_update') {
+                //  reset state
+                $(this).attr('state', 'update');
+                $(this).text('submit');
 
-            var commodity_url = $(this).parent().prev().text();
-            var commodity_id = $(this).attr('id').substring("update_btn_".length);
-            var msg = "id = " + commodity_id + ", url =" + commodity_url;
-            var input_td = "<input class='form-control' type='text' id='url_input_" + commodity_id
-                + "' value='" + commodity_url + "'><button class='btn btn-outline-primary cancel_url_btn' type='submit' id='cancel_btn_"
-                + urlObj['c_id'] + "'>cancel</button>";
-            $(this).parent().prev().html(input_td);
+                var commodity_url = $(this).parent().prev().text();
+                var commodity_id = $(this).attr('id').substring("update_btn_".length);
+                var input_td = "<input class='form-control' type='text' id='url_input_" + commodity_id
+                    + "' value='" + commodity_url + "'><button class='btn btn-outline-primary cancel_url_btn' type='submit' id='cancel_btn_"
+                    + commodity_id + "' url='" + commodity_url + "'>cancel</button>";
+                $(this).parent().prev().html(input_td);
+
+                console.log('pre update now');
+            }
+            else if (state === 'update') {
+                //  reset state
+                $(this).attr('state', 'pre_update');
+                $(this).text('update');
+
+                var commodity_url = $(this).parent().prev().children('input').val();
+                var commodity_id = $(this).attr('id').substring("update_btn_".length);
+                var url_url_td = "<a href='" + commodity_url + "'>" + commodity_url + "</a>";
+                $(this).parent().prev().html(url_url_td);
+            }
         });
     });
 
     //  dynamic button click event
     $(document).on('click', '.cancel_url_btn', function(){
-        var commodity_url = '26';//$(this).parent().prev().text();
-        var commodity_id = 'https://www.google.com';//$(this).attr('id').substring("update_btn_".length);
-        var url_url_td = "<a href='" + commodity_url + "'>" + commodity_id + "</a>";
+        var commodity_url = $(this).attr('url');
+        var commodity_id = $(this).attr('id').substring("cancel_btn_".length);
+        var url_url_td = "<a href='" + commodity_url + "'>" + commodity_url + "</a>";
+        $(this).parent().next().children('.update_url_btn').attr('state', 'pre_update');
+        $(this).parent().next().children('.update_url_btn').text('update');
         $(this).parent().html(url_url_td);
     });
 
