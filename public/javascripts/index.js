@@ -1,7 +1,7 @@
 
 function submitUrl() {
     var url_value = $("#url_input").val();
-    if(url_value === "" || url_value === "https://") {
+    if(url_value === "") {
         alert("No parameter");
     }
     else if(!isAmazonUrl(url_value)) {
@@ -141,17 +141,26 @@ $('document').ready(function(){
                 console.log('pre update now');
             }
             else if (state === 'update') {
-                //  reset state
-                $(this).attr('state', 'pre_update');
-                $(this).text('update');
 
                 var commodity_url = $(this).parent().prev().children('input').val();
                 var commodity_id = $(this).attr('id').substring("update_btn_".length);
 
-                updateUrl(commodity_id, commodity_url, ()=>{
-                    var url_url_td = "<a href='" + commodity_url + "'>" + commodity_url + "</a>";
-                    $(this).parent().prev().html(url_url_td);
-                });
+                if(commodity_url === "") {
+                    alert("No parameter");
+                }
+                else if(!isAmazonUrl(commodity_url)) {
+                    alert("not a amazon URL");
+                }
+                else {
+                    //  reset state
+                    $(this).attr('state', 'pre_update');
+                    $(this).text('update');
+
+                    updateUrl(commodity_id, commodity_url, ()=>{
+                        var url_url_td = "<a href='" + commodity_url + "'>" + commodity_url + "</a>";
+                        $(this).parent().prev().html(url_url_td);
+                    });
+                }
             }
         });
     });
