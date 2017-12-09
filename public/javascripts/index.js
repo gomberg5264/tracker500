@@ -147,8 +147,11 @@ $('document').ready(function(){
 
                 var commodity_url = $(this).parent().prev().children('input').val();
                 var commodity_id = $(this).attr('id').substring("update_btn_".length);
-                var url_url_td = "<a href='" + commodity_url + "'>" + commodity_url + "</a>";
-                $(this).parent().prev().html(url_url_td);
+
+                updateUrl(commodity_id, commodity_url, ()=>{
+                    var url_url_td = "<a href='" + commodity_url + "'>" + commodity_url + "</a>";
+                    $(this).parent().prev().html(url_url_td);
+                });
             }
         });
     });
