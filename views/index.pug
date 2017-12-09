@@ -14,9 +14,10 @@ block content
         button.btn.btn-primary(type='submit' id='url_submit_btn') Submit   
     
     table(class='table table-striped')
-      tbody(id='url_tbody')
+      thead
         tr
-          th ID
-          th URL
-          th Update
-          th Delete
+          th(style="width: 3%") ID
+          th(style="width: 77%") URL
+          th(style="width: 10%") Update
+          th(style="width: 10%") Delete
+      tbody(id='url_tbody')

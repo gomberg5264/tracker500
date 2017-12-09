@@ -80,6 +80,14 @@ function updateUrl(commodity_id, url_value, callback) {
     });
 }
 
+function onCancelButton() {
+
+    var commodity_url = '26';//$(this).parent().prev().text();
+    var commodity_id = 'https://www.google.com';//$(this).attr('id').substring("update_btn_".length);
+    var url_url_td = "<a href='" + commodity_url + "'>" + commodity_id + "</a>";
+    $(this).parent().html(url_url_td);
+}
+
 $('document').ready(function(){
 
     $("#url_submit_btn").click(function() {
@@ -90,8 +98,8 @@ $('document').ready(function(){
         for (i in data) {
             var urlObj = data[i];
 
-            var url_id_td = "<td class='commodity_id'><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
-            var url_url_td = "<td class='commodity_url'><a href='" + urlObj['c_url'] + "'>" + urlObj['c_url'] + "</a></td>";
+            var url_id_td = "<td><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
+            var url_url_td = "<td><a href='" + urlObj['c_url'] + "'>" + urlObj['c_url'] + "</a></td>";
             var update_td = "<td><button class='btn btn-primary update_url_btn' type='submit' id='update_btn_" + urlObj['c_id'] + "'>update</button></td>";
             // var update_td = "<td class='update_url_btn'><a href='#'><i class='fa fa-pencil' aria-hidden='true'></i>&nbsp; Update</a></td>";
             // var delete_td = "<td class='delete_url_btn'><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>&nbsp; Delete</a></td>";
@@ -122,9 +130,18 @@ $('document').ready(function(){
             var commodity_id = $(this).attr('id').substring("update_btn_".length);
             var msg = "id = " + commodity_id + ", url =" + commodity_url;
             var input_td = "<input class='form-control' type='text' id='url_input_" + commodity_id
-                + "' value='" + commodity_url + "'>";
+                + "' value='" + commodity_url + "'><button class='btn btn-outline-primary cancel_url_btn' type='submit' id='cancel_btn_"
+                + urlObj['c_id'] + "'>cancel</button>";
             $(this).parent().prev().html(input_td);
         });
+    });
+
+    //  dynamic button click event
+    $(document).on('click', '.cancel_url_btn', function(){
+        var commodity_url = '26';//$(this).parent().prev().text();
+        var commodity_id = 'https://www.google.com';//$(this).attr('id').substring("update_btn_".length);
+        var url_url_td = "<a href='" + commodity_url + "'>" + commodity_id + "</a>";
+        $(this).parent().html(url_url_td);
     });
 
 });
