@@ -1,7 +1,7 @@
 
 function submitUrl() {
     var url_value = $("#url_input").val();
-    if(url_value === "" || url_value === "http://") {
+    if(url_value === "" || url_value === "https://") {
         alert("No parameter");
     }
     else if(!isAmazonUrl(url_value)) {
@@ -121,7 +121,9 @@ $('document').ready(function(){
             var commodity_url = $(this).parent().prev().text();
             var commodity_id = $(this).attr('id').substring("update_btn_".length);
             var msg = "id = " + commodity_id + ", url =" + commodity_url;
-            alert(msg);
+            var input_td = "<input class='form-control' type='text' id='url_input_" + commodity_id
+                + "' value='" + commodity_url + "'>";
+            $(this).parent().prev().html(input_td);
         });
     });
 
