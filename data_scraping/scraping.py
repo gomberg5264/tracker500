@@ -88,11 +88,12 @@ db.execute("""
         CREATE TABLE IF NOT EXISTS commodity_url (
             c_id MEDIUMINT AUTO_INCREMENT PRIMARY KEY,
             c_url VARCHAR(256) NOT NULL DEFAULT '',
+            c_title VARCHAR(256) NOT NULL DEFAULT '',
             UNIQUE (c_url)
         )""")
 
 commodities = []
-db.execute("SELECT * FROM commodity_url ORDER BY c_id")
+db.execute("SELECT c_id, c_url FROM commodity_url ORDER BY c_id")
 for (c_id, c_url) in db:
     commodity = Commodity(c_id, c_url.decode("UTF-8"))
     commodity.retrieve_info()
@@ -104,6 +105,8 @@ for commodity in commodities:
                "ON DUPLICATE KEY UPDATE `c_title`=?,`c_price`=?",
                [commodity.title, commodity.price, commodity.c_id, datetime.now().strftime("%Y-%m-%d"),
                 commodity.title, commodity.price])
+    db.execute("UPDATE commodity_url SET `c_title`=? WHERE `c_id`=?",
+               [commodity.title, commodity.c_id])
 
 connection.commit()  # required, as mysql generally doesn't autocommit
 connection.close()
