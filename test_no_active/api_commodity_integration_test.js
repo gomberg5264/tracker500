@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const superagent = require('superagent')
 
-var BASE_URL = 'http://172.20.10.3:3000/api';
+var BASE_URL = 'http://localhost:3000/api';
 
 var c_id = "29";
 var start_date = "2017-11-03";
