@@ -97,20 +97,25 @@ $('document').ready(function(){
     listAllUrls((data)=>{
         for (i in data) {
             var urlObj = data[i];
-
-            var url_id_td = "<td><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
-            var url_url_td = "<td><a href='" + urlObj['c_url'] + "'>" + urlObj['c_url'] + "</a></td>";
+            if (urlObj['c_title'] === '') {
+                var url_id_td = "<td url = '" + urlObj['c_url'] + "'><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
+                var url_title_td = "<td><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_url'] + "</a></td>";
+            }
+            else {
+                var url_id_td = "<td url = '" + urlObj['c_url'] + "' title = '" + urlObj['c_title'] + "'><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
+                var url_title_td = "<td><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_title'] + "</a></td>";
+            }
             var update_td = "<td><button class='btn btn-primary update_url_btn' type='submit' id='update_btn_" + urlObj['c_id'] + "' state='pre_update'>update</button></td>";
             // var update_td = "<td class='update_url_btn'><a href='#'><i class='fa fa-pencil' aria-hidden='true'></i>&nbsp; Update</a></td>";
             // var delete_td = "<td class='delete_url_btn'><a href='#'><i class='fa fa-trash' aria-hidden='true'></i>&nbsp; Delete</a></td>";
             var delete_td = "<td><button class='btn btn-primary delete_url_btn' type='submit' id='delete_btn_" + urlObj['c_id'] + "'>delete</button></td>";
-            $('#url_tbody').append("<tr id='tr_" + urlObj['c_id'] + "'>" + url_id_td + url_url_td + update_td + delete_td + "</tr>")
+            $('#url_tbody').append("<tr id='tr_" + urlObj['c_id'] + "'>" + url_id_td + url_title_td + update_td + delete_td + "</tr>")
         }
 
         $('.delete_url_btn').on('click', function(){
 
             var commodity_id = $(this).attr('id').substring("delete_btn_".length);
-            var commodity_url = $(this).parent().prev().prev().text();
+            var commodity_url = $(this).parent().prev().prev().prev().attr('url');
             var msg = "Are you sure to delete the url '" + commodity_url + "' ?";
             if (confirm(msg) == true) {
                 deleteUrl(commodity_url, function (){
@@ -131,14 +136,12 @@ $('document').ready(function(){
                 $(this).attr('state', 'update');
                 $(this).text('submit');
 
-                var commodity_url = $(this).parent().prev().text();
+                var commodity_url = $(this).parent().prev().prev().attr('url');
                 var commodity_id = $(this).attr('id').substring("update_btn_".length);
                 var input_td = "<input class='form-control' type='text' id='url_input_" + commodity_id
                     + "' value='" + commodity_url + "'><button class='btn btn-outline-primary cancel_url_btn' type='submit' id='cancel_btn_"
                     + commodity_id + "' url='" + commodity_url + "'>cancel</button>";
                 $(this).parent().prev().html(input_td);
-
-                console.log('pre update now');
             }
             else if (state === 'update') {
 
@@ -157,8 +160,9 @@ $('document').ready(function(){
                     $(this).text('update');
 
                     updateUrl(commodity_id, commodity_url, ()=>{
-                        var url_url_td = "<a href='" + commodity_url + "'>" + commodity_url + "</a>";
-                        $(this).parent().prev().html(url_url_td);
+                        var url_title_td = "<a href='/commodity/" + commodity_id + "'>" + commodity_url + "</a>";
+                        $(this).parent().prev().html(url_title_td);
+                        $(this).parent().prev().prev().attr('url', commodity_url);
                     });
                 }
             }
@@ -167,12 +171,13 @@ $('document').ready(function(){
 
     //  dynamic button click event
     $(document).on('click', '.cancel_url_btn', function(){
-        var commodity_url = $(this).attr('url');
+        var commodity_url = $(this).parent().prev().attr('url');
+        var commodity_title = $(this).parent().prev().attr('title');
         var commodity_id = $(this).attr('id').substring("cancel_btn_".length);
-        var url_url_td = "<a href='" + commodity_url + "'>" + commodity_url + "</a>";
+        var url_title_td = "<a href='/commodity/" + commodity_id + "'>" + commodity_title + "</a>";
         $(this).parent().next().children('.update_url_btn').attr('state', 'pre_update');
         $(this).parent().next().children('.update_url_btn').text('update');
-        $(this).parent().html(url_url_td);
+        $(this).parent().html(url_title_td);
     });
 
 });
