@@ -1,7 +1,0 @@
-{
-    "user": "demo",
-    "password":"demo",
-    "database":"apt_test",
-    "host":"localhost",
-    "echo":true
-}

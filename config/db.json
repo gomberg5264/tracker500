@@ -1,7 +1,0 @@
-{
-    "user": "demo",
-    "password":"demo",
-    "database":"semdemo",
-    "host":"localhost",
-    "echo":true
-}
