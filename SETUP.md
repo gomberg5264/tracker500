@@ -43,10 +43,16 @@ v8.9.3
 npm --version
 5.5.1
 ```
-## Step3. install MySQL (by apt)
+## Step3. install MySQL (by apt) and create database
 ### 1. install
 ```
 sudo apt-get install mysql-server mysql-client
+```
+### 2. create user
+```
+CREATE DATABASE xxxx; 
+CREATE USER 'xxx'@'localhost' IDENTIFIED BY 'xxx';
+GRANT ALL PRIVILEGES ON xxxx.* to xxx@localhost ;
 ```
 ## Step4. install phpMyAdmin (Optional)
 ### 1. install PHP7.0, Nginx
@@ -95,3 +101,26 @@ cp -r /usr/share/phpmyadmin /var/www
 ```
 go to link http://url/phpmyadmin
 
+## Step5. setup Amazon Price Tracker
+### 1. create table (run runTracker.sh)
+```
+cd shell
+./runTracker.sh
+```
+### 2. install npm packages
+```
+cd AmazonPriceTracker
+npm install
+```
+### 3. run node js
+```
+npm start
+```
+### 4. run node in background
+```
+npm install -g forever
+forever start bin/www
+forever list // list all node js instance
+```
+## Step6 run Amazon Price Tracker
+go to link: http://35.194.31.135/
