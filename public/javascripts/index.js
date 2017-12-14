@@ -44,13 +44,12 @@ function listAllUrls(callback) {
     });
 }
 
-function deleteUrl(url_value, callback) {
+function deleteUrl(c_id, callback) {
     $.ajax({
         type: "delete",
-        url:"/api/urls/",
+        url:"/api/urls/" + c_id,
         async: true,
         dataType:"json",
-        data:{"url":url_value},
         success: function(data) {
             callback(data);
         },
@@ -118,7 +117,7 @@ $('document').ready(function(){
             var commodity_url = $(this).parent().prev().prev().prev().attr('url');
             var msg = "Are you sure to delete the url '" + commodity_url + "' ?";
             if (confirm(msg) == true) {
-                deleteUrl(commodity_url, function (){
+                deleteUrl(commodity_id, function (){
                     console.log("delete url successfully: " + commodity_url);
                     $("#tr_" + commodity_id).remove();
                 });
