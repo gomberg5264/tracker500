@@ -136,4 +136,50 @@ describe("test url api with superagent", () => {
                 done();
             });
     });
+
+    it("test API to insert another url ", (done) => {
+        superagent.post(BASE_URL + '/urls/')
+            .type('form')
+            .send({"url":url[0]})
+            .end(function(err, res) {
+                // expect(err).to.not.exist;
+                expect(res.status).to.equal(201);
+                expect(res.text).to.exist;
+
+                var returnUrl = JSON.parse(res.text);
+                expect(returnUrl['data']).to.be.an('object').that.is.not.empty;
+                expect(returnUrl['data']['c_url']).to.equal(url[0]);
+                c_id = returnUrl['data']['c_id'];
+                done();
+            });
+    });
+
+    it("test API to delete another url ", (done) => {
+        superagent.delete(BASE_URL + '/urls/' + c_id)
+            .end(function(err, res) {
+                expect(err).to.not.exist;
+                expect(res.status).to.equal(204);
+                expect(res.text).to.exist;
+
+                done();
+            });
+    });
+
+    it("test whether another url is deleted", (done) => {
+        superagent.get(BASE_URL + '/urls/')
+            .end(function(err, res) {
+                expect(err).to.not.exist;
+                expect(res.status).to.equal(200);
+                expect(res.text).to.exist;
+
+                var urls = JSON.parse(res.text);
+                expect(urls['data']).to.be.an.instanceof(Array);
+
+                function findUrl(element) {
+                        return element.c_url === url[0];
+                }
+                if (urls['data'].find(findUrl) !== undefined) throw new Error("the url is still in db");
+                done();
+            });
+    });
 });
