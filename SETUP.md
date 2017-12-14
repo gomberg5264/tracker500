@@ -128,5 +128,5 @@ go to link: http://35.194.31.135/
 ## Step7 setup cronjob
 input 'corntab -e'
 ```
-1 1 * * * . /etc/profile;/bin/sh /*****/AmazonPriceTracker/shell/runTracker.sh
+1 1 * * * . /etc/profile;/bin/sh /**/**/AmazonPriceTracker/shell/runTracker.sh
 ```
