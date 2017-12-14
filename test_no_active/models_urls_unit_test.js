@@ -84,7 +84,7 @@ describe("flushing test data through database", function () {
     });
 
     it("should be able to delete a url", function (done) {
-        urls_models.deleteUrl(dbcfg, url[random_index], (err, results) => {
+        urls_models.deleteUrlWithURL(dbcfg, url[random_index], (err, results) => {
             expect(err).not.to.exist;
             done();
         });
@@ -95,6 +95,37 @@ describe("flushing test data through database", function () {
             expect(err).not.to.exist;
             function findUrl(element) {
                     return element.c_url === url[random_index];
+            }
+            if (results.find(findUrl) !== undefined) throw new Error("fail to delete the updated url");
+            if (results.length != record_count - 1) throw new Error("record count is not incremented by one");
+            done();
+        });
+    });
+
+    it("should be able to insert another url", function (done) {
+        urls_models.insertUrl(dbcfg, url[1], (err, result) => {
+            expect(err).not.to.exist;
+            if (!result) throw new Error("No item id returned");
+            if (typeof(result['c_id']) != "number" || !Number.isInteger(result['c_id']))
+                            throw new Error("Non-Integer returned on insertation");
+            if (!(result["c_url"]===url[1])) throw new Error("it fails to insert url to db");
+            insert_c_id = result['c_id'];
+            done();
+        });
+    });
+
+    it("should be able to delete another url", function (done) {
+        urls_models.deleteUrlWithID(dbcfg, insert_c_id, (err, results) => {
+            expect(err).not.to.exist;
+            done();
+        });
+    });
+
+    it("check whether the second url is deleted", function (done) {
+        urls_models.listAllUrls(dbcfg, (err, results) => {
+            expect(err).not.to.exist;
+            function findUrl(element) {
+                    return element.c_url === url[1];
             }
             if (results.find(findUrl) !== undefined) throw new Error("fail to delete the updated url");
             if (results.length != record_count - 1) throw new Error("record count is not incremented by one");

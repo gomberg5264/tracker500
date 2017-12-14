@@ -48,7 +48,21 @@ router.post('/', function(req, res) {
 //  delete a url from db
 //  return value is null
 router.delete('/', function(req, res) {
-    urls_models.deleteUrl(dbcfg, req.body['url'], function(err, result) {
+    urls_models.deleteUrlWithURL(dbcfg, req.body['url'], function(err, result) {
+        if (err) {
+            res.status(400).end(err.message);
+        }
+        else {
+            res.status(204).end();
+        }
+    });
+});
+
+//  delete a url from db
+//  return value is null
+router.delete('/:c_id', function(req, res) {
+    var c_id = parseInt(req.params['c_id']);
+    urls_models.deleteUrlWithID(dbcfg, c_id, function(err, result) {
         if (err) {
             res.status(400).end(err.message);
         }

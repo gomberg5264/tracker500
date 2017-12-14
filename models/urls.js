@@ -50,9 +50,17 @@ function listAllUrls(dbcfg, callback) {
 //
 //  description: delete the url with specified url
 //
-function deleteUrl(dbcfg, url, callback) {
+function deleteUrlWithURL(dbcfg, url, callback) {
     db.stage(dbcfg).execute(
         "DELETE FROM commodity_url WHERE c_url=?", [url]).finale(callback);
+}
+
+//
+//  description: delete the url with specified url
+//
+function deleteUrlWithID(dbcfg, c_id, callback) {
+    db.stage(dbcfg).execute(
+        "DELETE FROM commodity_url WHERE c_id=?", [c_id]).finale(callback);
 }
 
 //
@@ -86,6 +94,7 @@ module.exports = {
   init: init,
   insertUrl: insertUrl,
   listAllUrls: listAllUrls,
-  deleteUrl:deleteUrl,
+  deleteUrlWithURL:deleteUrlWithURL,
+  deleteUrlWithID:deleteUrlWithID,
   updateUrl:updateUrl
 };
