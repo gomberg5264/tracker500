@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/:id', function(req, res, next) {
     var commodity_id = req.params['id'];
-    res.render('commodity', { 'title': 'Amazon Title' + commodity_id, 'url': 'url', 'id': commodity_id});
+    res.render('commodity', { 'title': 'Amazon Title' + commodity_id, 'id': commodity_id});
 });
 
 module.exports = router;

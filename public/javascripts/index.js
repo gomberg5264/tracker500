@@ -97,12 +97,12 @@ $('document').ready(function(){
         for (i in data) {
             var urlObj = data[i];
             if (urlObj['c_title'] === '') {
-                var url_id_td = "<td url = '" + urlObj['c_url'] + "'><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
-                var url_title_td = "<td><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_url'] + "</a></td>";
+                var url_id_td = "<td url = '" + urlObj['c_url'] + "'>" + urlObj['c_id'] + "</td>";
+                var url_title_td = "<td><a class='title_td' href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_url'] + "</a></td>";
             }
             else {
-                var url_id_td = "<td url = '" + urlObj['c_url'] + "' title = '" + urlObj['c_title'] + "'><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_id'] + "</a></td>";
-                var url_title_td = "<td><a href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_title'] + "</a></td>";
+                var url_id_td = "<td url = '" + urlObj['c_url'] + "' title = '" + urlObj['c_title'] + "'>" + urlObj['c_id'] + "</td>";
+                var url_title_td = "<td><a class='title_td' href='/commodity/" + urlObj['c_id'] + "'>" + urlObj['c_title'] + "</a></td>";
             }
             var update_td = "<td><button class='btn btn-primary update_url_btn' type='submit' id='update_btn_" + urlObj['c_id'] + "' state='pre_update'>update</button></td>";
             // var update_td = "<td class='update_url_btn'><a href='#'><i class='fa fa-pencil' aria-hidden='true'></i>&nbsp; Update</a></td>";
@@ -110,6 +110,11 @@ $('document').ready(function(){
             var delete_td = "<td><button class='btn btn-primary delete_url_btn' type='submit' id='delete_btn_" + urlObj['c_id'] + "'>delete</button></td>";
             $('#url_tbody').append("<tr id='tr_" + urlObj['c_id'] + "'>" + url_id_td + url_title_td + update_td + delete_td + "</tr>")
         }
+
+        $('.title_td').on('click', function(){
+            var commodity_url = $(this).parent().prev().attr('url');
+            localStorage.setItem("c_url", commodity_url);
+        });
 
         $('.delete_url_btn').on('click', function(){
 
