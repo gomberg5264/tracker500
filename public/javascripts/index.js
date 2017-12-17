@@ -90,6 +90,9 @@ $('document').ready(function(){
 
     $("#url_submit_btn").on('click', function() {
         submitUrl((data)=>{
+
+            $("#url_input").val("");
+
             var url_id_td = "<td url = '" + data['c_url'] + "'>" + data['c_id'] + "</td>";
             var url_title_td = "<td><a class='title_td' href='/commodity/" + data['c_id'] + "'>" + data['c_url'] + "</a></td>";
             var update_td = "<td><button class='btn btn-primary update_url_btn' type='submit' id='update_btn_" + data['c_id'] + "' state='pre_update'>update</button></td>";
