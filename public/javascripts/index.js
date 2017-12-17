@@ -1,5 +1,5 @@
 
-function submitUrl() {
+function submitUrl(callback) {
     var url_value = $("#url_input").val();
     if(url_value === "") {
         alert("No parameter");
@@ -15,8 +15,7 @@ function submitUrl() {
             dataType:"json",
             data:{"url":url_value},
             success: function(data) {
-                alert("Success");
-                $("#url_input").val("");
+                callback(data['data']);
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
@@ -90,7 +89,9 @@ function onCancelButton() {
 $('document').ready(function(){
 
     $("#url_submit_btn").on('click', function() {
-        submitUrl();
+        submitUrl((data)=>{
+            console.log(data);
+        });
     });
 
     listAllUrls((data)=>{

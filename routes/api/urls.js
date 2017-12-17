@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var urls_models = require("../../models/urls")
 // var dbcfg = require('../../config/db_test.json');
-var dbcfg = require('../../config/db.json');
+var dbcfg = require('../../config/db_test.json');
 
 //  query all urls
 //  return value is a JSON Array or empty Array
