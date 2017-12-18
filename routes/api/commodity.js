@@ -3,7 +3,7 @@ var router = express.Router();
 var commodity_models = require("../../models/commodity")
 var commodity_util = require('./commodity_util');
 var moment = require('moment');
-var dbcfg = require('../../config/db_test.json');
+var dbcfg = require('../../config/db.json');
 
 /**
  * query commodity prices in a time period
