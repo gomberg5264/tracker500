@@ -23,9 +23,12 @@ $('document').ready(function(){
 
         var title = data['title'];
         var prices = data['prices'];
-
+        var url = localStorage.getItem("c_url");
+        if (title === '') {
+            title = url;
+        }
         $(".commodity_title").text(title);
-        $(".commodity_title").attr('href', localStorage.getItem("c_url"));
+        $(".commodity_title").attr('href', url);
 
         for (i in prices) {
             var priceObj = prices[i];
