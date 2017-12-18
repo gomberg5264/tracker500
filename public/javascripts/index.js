@@ -120,12 +120,12 @@ $('document').ready(function(){
             $('#url_tbody').append("<tr id='tr_" + urlObj['c_id'] + "'>" + url_id_td + url_title_td + update_td + delete_td + "</tr>")
         }
 
-        $('.title_td').on('click', function(){
+        $('#url_tbody').on('click', '.title_td', function(){
             var commodity_url = $(this).parent().prev().attr('url');
             localStorage.setItem("c_url", commodity_url);
         });
 
-        $('.delete_url_btn').on('click', function(){
+        $('#url_tbody').on('click', '.delete_url_btn', function(){
 
             var commodity_id = $(this).attr('id').substring("delete_btn_".length);
             var commodity_url = $(this).parent().prev().prev().prev().attr('url');
@@ -142,7 +142,7 @@ $('document').ready(function(){
     		}
         });
 
-        $('.update_url_btn').on('click', function(){
+        $('#url_tbody').on('click', '.update_url_btn', function(){
             var state = $(this).attr('state');
             if (state === 'pre_update') {
                 //  reset state
