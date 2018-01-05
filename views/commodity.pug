@@ -2,6 +2,11 @@ extends layout
 block scripts
   script(src="/javascripts/base.js")
   script(src="/javascripts/commodity.js")
+  script(src='/javascripts/chartjs/Chart.bundle.js')  
+  script(src='/javascripts/chartjs/utils.js')
+
+block style
+  link(rel='stylesheet', href='/stylesheets/commodity.css')
 
 block content
   .main.container
