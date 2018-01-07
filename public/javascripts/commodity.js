@@ -90,6 +90,29 @@ $('document').ready(function(){
         drawChart(chart_date, chart_prices);
 
         //  draw table
+        var container = document.querySelector('.container');
+
+        var table = document.createElement('table');
+        table.classList.add('table');
+        table.classList.add('table-striped');
+
+        var tbody = document.createElement('tbody');
+        tbody.setAttribute('id', 'commodity_tbody');
+
+        var tr = document.createElement('tr');
+        var th_price = document.createElement('th');
+        var th_date = document.createElement('th');
+        var th_price_content = document.createTextNode("Price");
+        var th_date_content = document.createTextNode("Date");
+
+        th_price.appendChild(th_price_content);
+        th_date.appendChild(th_date_content);
+        tr.appendChild(th_price);
+        tr.appendChild(th_date);
+        tbody.appendChild(tr);
+        table.appendChild(tbody);
+        container.appendChild(table);
+
         for (i in prices) {
             var priceObj = prices[i];
 
