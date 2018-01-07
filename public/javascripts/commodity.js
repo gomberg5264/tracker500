@@ -16,11 +16,11 @@ function listAllPrices(url_id, callback) {
     });
 }
 
-function createConfig(details, data) {
+function createConfig(details, date, data) {
 	return {
 		type: 'line',
 		data: {
-			labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6'],
+			labels: date,
 			datasets: [{
 				label: details.label,
 				steppedLine: details.steppedLine,
@@ -42,18 +42,16 @@ function createConfig(details, data) {
 function drawChart() {
     var container = document.querySelector('.container');
 
-    var data = [
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor()
-    ];
+    var data = [];
+    var date = [];
+    for (var i = 0; i < 30; i++) {
+        data.push(randomScalingFactor());
+        date.push('day' + (i+1));
+    }
 
     var setting = {
         steppedLine: true,
-        label: 'Step Before Interpolation',
+        label: 'Price',
         color: window.chartColors.green
     };
 
@@ -65,7 +63,7 @@ function drawChart() {
     container.appendChild(div);
 
     var ctx = canvas.getContext('2d');
-    var config = createConfig(setting, data);
+    var config = createConfig(setting, date, data);
     new Chart(ctx, config);
 }
 
