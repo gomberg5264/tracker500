@@ -39,15 +39,8 @@ function createConfig(details, date, data) {
 	};
 }
 
-function drawChart() {
+function drawChart(date, data) {
     var container = document.querySelector('.container');
-
-    var data = [];
-    var date = [];
-    for (var i = 0; i < 30; i++) {
-        data.push(randomScalingFactor());
-        date.push('day' + (i+1));
-    }
 
     var setting = {
         steppedLine: true,
@@ -81,6 +74,22 @@ $('document').ready(function(){
         $(".commodity_title").text(title);
         $(".commodity_title").attr('href', url);
 
+        //  draw chart
+        var chart_date = [];
+        var chart_prices = [];
+        var i = 0;
+        if (prices.length >= 30) {
+            i = prices.length - 30;
+        }
+        for (; i < prices.length; i++) {
+            var priceObj = prices[i];
+            chart_date.push(priceObj['date']);
+            chart_prices.push(Math.round(priceObj['price']*100)/100);
+        }
+
+        drawChart(chart_date, chart_prices);
+
+        //  draw table
         for (i in prices) {
             var priceObj = prices[i];
 
@@ -89,7 +98,6 @@ $('document').ready(function(){
             $('#commodity_tbody').append("<tr>" + commodity_price_td + commodity_date_td + "</tr>");
 
         }
-    });
 
-    drawChart();
+    });
 });
