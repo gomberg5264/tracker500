@@ -42,6 +42,8 @@ class Commodity:
             self.title = str_title.strip()
 
         # retrieve price
+        is_used_price = False
+
         for price_tag in soup.find_all(id="priceblock_ourprice"):
             str_price = price_tag.text
             if str_price.find('\n') == -1:
@@ -51,7 +53,23 @@ class Commodity:
                 str_price_integer = str_price[2:index_of_1st_enter]
                 index_of_2nd_enter = str_price.find('\n', index_of_1st_enter+1)
                 str_price_decimal = str_price[index_of_1st_enter+1:index_of_2nd_enter]
-                self.price = float(str_price_integer + '.' + str_price_decimal)
+                if str_price_integer == '\n':
+                    is_used_price = True
+                    break
+                else:
+                    self.price = float(str_price_integer + '.' + str_price_decimal)
+
+        if is_used_price:
+            for price_tag in soup.find_all(id="priceblock_usedprice"):
+                str_price = price_tag.text
+                if str_price.find('\n') == -1:
+                    self.price = float(str_price[1:])
+                else:
+                    index_of_1st_enter = str_price.find('\n', 2 + 1)
+                    str_price_integer = str_price[2:index_of_1st_enter]
+                    index_of_2nd_enter = str_price.find('\n', index_of_1st_enter + 1)
+                    str_price_decimal = str_price[index_of_1st_enter + 1:index_of_2nd_enter]
+                    self.price = float(str_price_integer + '.' + str_price_decimal)
 
         self.retrieve_count += 1
 

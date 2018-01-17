@@ -45,6 +45,8 @@ class Commodity:
         # retrieve price
         print(soup)
 
+        is_used_price = False
+
         for price_tag in soup.find_all(id="priceblock_ourprice"):
             str_price = price_tag.text
             if str_price.find('\n') == -1:
@@ -54,7 +56,23 @@ class Commodity:
                 str_price_integer = str_price[2:index_of_1st_enter]
                 index_of_2nd_enter = str_price.find('\n', index_of_1st_enter+1)
                 str_price_decimal = str_price[index_of_1st_enter+1:index_of_2nd_enter]
-                self.price = float(str_price_integer + '.' + str_price_decimal)
+                if str_price_integer == '\n':
+                    is_used_price = True
+                    break
+                else:
+                    self.price = float(str_price_integer + '.' + str_price_decimal)
+
+        if is_used_price:
+            for price_tag in soup.find_all(id="priceblock_usedprice"):
+                str_price = price_tag.text
+                if str_price.find('\n') == -1:
+                    self.price = float(str_price[1:])
+                else:
+                    index_of_1st_enter = str_price.find('\n', 2 + 1)
+                    str_price_integer = str_price[2:index_of_1st_enter]
+                    index_of_2nd_enter = str_price.find('\n', index_of_1st_enter + 1)
+                    str_price_decimal = str_price[index_of_1st_enter + 1:index_of_2nd_enter]
+                    self.price = float(str_price_integer + '.' + str_price_decimal)
 
         self.retrieve_count += 1
 
@@ -67,17 +85,18 @@ class Commodity:
 
 
 urls = [
-    "https://www.amazon.com/PlayStation-Slim-500GB-Console-Discontinued-4/dp/B01LRLJV28",
-    "https://www.amazon.com/PlayStation-4-Pro-1TB-Console/dp/B01LOP8EZC?th=1",
-    "https://www.amazon.com/God-War-3-Remastered-PlayStation-4/dp/B00USM22DI",
-    "https://www.amazon.com/dp/B073TS5FSK/ref=dp_sp_detail?psc=1",
-    "https://www.amazon.com/dp/B00T8VQTGQ",
-    "https://www.amazon.com/Philips-AVENT-Double-Electric-Comfort/dp/B00N4R4C3M/ref=sr_1_4_s_it?s=baby-products&ie=UTF8&qid=1509343031&sr=1-4&keywords=AVENT+Double+Electric+Comfort+Breast+Pump",
-    "https://www.amazon.com/Philips-AVENT-Natural-Glass-Bottle/dp/B00PF83R84/ref=sr_1_6_s_it?s=baby-products&ie=UTF8&qid=1508883080&sr=1-6&keywords=philips+avent",
-    "https://www.amazon.com/Philips-AVENT-Natural-Glass-Bottle/dp/B00PF83R0W/ref=sr_1_6_s_it?s=baby-products&ie=UTF8&qid=1508883080&sr=1-6&keywords=philips%2Bavent&th=1",
-    "https://www.amazon.com/Britax-Boulevard-G4-1-Convertible-Domino/dp/B00OLRKNGY/ref=sr_1_1_s_it?s=baby-products&ie=UTF8&qid=1508884406&sr=1-1&refinements=p_89%3ABritax%2BUSA&th=1",
-    "https://www.amazon.com/Bose-QuietComfort-Wireless-Headphones-Cancelling/dp/B01E3SNO1G/ref=sr_1_3?s=electronics&ie=UTF8&qid=1508884685&sr=1-3&keywords=bose",
+    # "https://www.amazon.com/PlayStation-Slim-500GB-Console-Discontinued-4/dp/B01LRLJV28",
+    # "https://www.amazon.com/PlayStation-4-Pro-1TB-Console/dp/B01LOP8EZC?th=1",
+    # "https://www.amazon.com/God-War-3-Remastered-PlayStation-4/dp/B00USM22DI",
+    # "https://www.amazon.com/dp/B073TS5FSK/ref=dp_sp_detail?psc=1",
+    # "https://www.amazon.com/dp/B00T8VQTGQ",
+    # "https://www.amazon.com/Philips-AVENT-Double-Electric-Comfort/dp/B00N4R4C3M/ref=sr_1_4_s_it?s=baby-products&ie=UTF8&qid=1509343031&sr=1-4&keywords=AVENT+Double+Electric+Comfort+Breast+Pump",
+    # "https://www.amazon.com/Philips-AVENT-Natural-Glass-Bottle/dp/B00PF83R84/ref=sr_1_6_s_it?s=baby-products&ie=UTF8&qid=1508883080&sr=1-6&keywords=philips+avent",
+    # "https://www.amazon.com/Philips-AVENT-Natural-Glass-Bottle/dp/B00PF83R0W/ref=sr_1_6_s_it?s=baby-products&ie=UTF8&qid=1508883080&sr=1-6&keywords=philips%2Bavent&th=1",
+    # "https://www.amazon.com/Britax-Boulevard-G4-1-Convertible-Domino/dp/B00OLRKNGY/ref=sr_1_1_s_it?s=baby-products&ie=UTF8&qid=1508884406&sr=1-1&refinements=p_89%3ABritax%2BUSA&th=1",
+    # "https://www.amazon.com/Bose-QuietComfort-Wireless-Headphones-Cancelling/dp/B01E3SNO1G/ref=sr_1_3?s=electronics&ie=UTF8&qid=1508884685&sr=1-3&keywords=bose",
     "https://www.amazon.com/JBL-Wireless-Bluetooth-Speaker-Pairing/dp/B00GOF0ZQ4/ref=sr_1_5?ie=UTF8&qid=1508884897&sr=8-5&keywords=jbl+pulse"
+    "https://www.amazon.com/dp/B00USM22DI?th=1"
 ]
 
 commodity = Commodity(0, urls[0])
