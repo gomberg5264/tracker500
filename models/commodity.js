@@ -38,7 +38,7 @@ function queryPrices(dbcfg, callback, c_id, start_date, end_date) {
         date_filter = " AND r_date BETWEEN '" + start_date + "' AND '" + end_date + "'";
     }
 
-    var query_str = "SELECT r_id, c_title, c_price, r_date FROM commodity_price_record WHERE c_id='" + c_id + "'" + date_filter + " ORDER BY r_date LIMIT 30";
+    var query_str = "SELECT r_id, c_title, c_price, r_date FROM commodity_price_record WHERE c_id='" + c_id + "'" + date_filter + " ORDER BY r_date DESC LIMIT 30";
     db.stage(dbcfg).query(query_str).finale(callback);
 }
 
