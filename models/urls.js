@@ -44,7 +44,7 @@ function insertUrl(dbcfg, url, callback) {
 //
 function listAllUrls(dbcfg, callback) {
     /// issue a single query, then output the result to callback(err, results)
-    db.stage(dbcfg).query("SELECT * FROM commodity_url ORDER BY c_id").finale(callback);
+    db.stage(dbcfg).query("SELECT * FROM commodity_url ORDER BY c_id DESC").finale(callback);
 }
 
 //
