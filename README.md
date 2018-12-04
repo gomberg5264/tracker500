@@ -4,3 +4,7 @@ If the price drop down, user will receive a notification from App.
 
 Demo Link:
 http://deqingqu.com
+
+
+Todo List:
+Database schema
