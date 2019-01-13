@@ -6,10 +6,12 @@ Demo Link:
 http://www.price-trackers.com/
 
 How to run the code:
+<pre><code>
 start app:
 forever start -c 'npm start' ./
 stop app:
 forever stopall
-
+ </code></pre>
+ 
 Todo List:
 Database schema
