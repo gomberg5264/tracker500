@@ -18,7 +18,7 @@ def retrieve(url: str):
            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36",
            )
     ua = UAS[random.randrange(len(UAS))]
-    headers = {'user-agent': ua}
+    headers = {'user-agent': ua, 'Cache-Control': 'no-cache'}
     r = requests.get(url, headers=headers, verify=False)  # get the HTML; ignore SSL errors (present on this particular site)
     soup = BeautifulSoup(r.text, "lxml")  # parse the HTML
     return soup
