@@ -1,5 +1,6 @@
 from helper import retrieve
 
+
 class Commodity:
     def __init__(self, c_id, url):
         self.c_id = c_id
@@ -23,8 +24,7 @@ class Commodity:
         is_used_price = False
 
         for price_tag in soup.find_all(id="priceblock_ourprice"):
-            str_price = price_tag.text.strip(' ')
-            print(str_price)
+            str_price = price_tag.text.replace(' ', '')
             if str_price.find('\n') == -1:
                 self.price = float(str_price[1:])
             else:
@@ -34,8 +34,10 @@ class Commodity:
                     if price != '' and price != '$':
                         if str_price_integer == '':
                             str_price_integer = price
-                        else:
+                        elif str_price_decimal == '':
                             str_price_decimal = price
+                        else:
+                            break
 
                 self.price = float(str_price_integer + '.' + str_price_decimal)
 

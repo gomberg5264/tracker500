@@ -3,6 +3,7 @@ from time import sleep
 from bs4 import BeautifulSoup
 import random
 
+
 #   retrieve data from URL
 def retrieve(url: str):
     #   retrieves content at the specified url

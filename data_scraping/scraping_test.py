@@ -1,6 +1,4 @@
 from commodity import Commodity
-import mysql.connector
-from datetime import datetime
 
 
 urls = [
@@ -18,6 +16,7 @@ urls = [
     # "https://www.amazon.com/dp/B01E3SNO1G",
     # "https://www.amazon.com/dp/B00N4R4C3M",
     # "https://www.amazon.com/JBL-Wireless-Bluetooth-Speaker-Pairing/dp/B00GOF0ZQ4/ref=sr_1_5?ie=UTF8&qid=1508884897&sr=8-5&keywords=jbl+pulse",
+    "https://www.amazon.com/dp/B01LWVX2RG",
     "https://www.amazon.com/dp/B06XCM9LJ4/ref=ods_mccc_Rdr",
     "https://www.amazon.com/dp/B0794W1SKP/ref=ods_mccc_lr",
     "https://www.amazon.com/All-new-Echo-Dot-3rd-Gen/dp/B0792K2BK6/ref=sr_1_1?ie=UTF8&qid=1547526586&sr=8-1&keywords=echo+dot",
