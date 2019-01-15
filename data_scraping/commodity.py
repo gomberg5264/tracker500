@@ -16,7 +16,7 @@ class Commodity:
         # retrieve title
         for title_tag in soup.find_all(id="productTitle"):
             str_title = title_tag.text
-            self.title = str_title.strip('\n').strip()
+            self.title = str_title.replace('\n', '').strip()
 
         # retrieve price
         # print(soup)
