@@ -19,7 +19,7 @@ def retrieve(url: str):
            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36",
            )
     ua = UAS[random.randrange(len(UAS))]
-    headers = {'user-agent': ua}
+    headers = {'user-agent': ua, 'Cache-Control': 'no-cache'}
     r = requests.get(url, headers=headers, verify=False)  # get the HTML; ignore SSL errors (present on this particular site)
     soup = BeautifulSoup(r.text, "lxml")  # parse the HTML
     return soup
@@ -40,28 +40,35 @@ class Commodity:
         # retrieve title
         for title_tag in soup.find_all(id="productTitle"):
             str_title = title_tag.text
-            print(str_title)
             self.title = str_title.strip('\n').strip()
 
         # retrieve price
-        print(soup)
+        # print(soup)
 
         is_used_price = False
 
         for price_tag in soup.find_all(id="priceblock_ourprice"):
-            str_price = price_tag.text
+            str_price = price_tag.text.strip(' ')
+            print(str_price)
             if str_price.find('\n') == -1:
                 self.price = float(str_price[1:])
             else:
-                index_of_1st_enter = str_price.find('\n', 2+1)
-                str_price_integer = str_price[2:index_of_1st_enter]
-                index_of_2nd_enter = str_price.find('\n', index_of_1st_enter+1)
-                str_price_decimal = str_price[index_of_1st_enter+1:index_of_2nd_enter]
-                if str_price_integer == '\n':
-                    is_used_price = True
-                    break
-                else:
-                    self.price = float(str_price_integer + '.' + str_price_decimal)
+                prices = str_price.split('\n')
+                str_price_integer, str_price_decimal = '', ''
+                for price in prices:
+                    if price != '' and price != '$':
+                        if str_price_integer == '':
+                            str_price_integer = price
+                        else:
+                            str_price_decimal = price
+
+                self.price = float(str_price_integer + '.' + str_price_decimal)
+
+                # if str_price_integer == '\n':
+                #     is_used_price = True
+                #     break
+                # else:
+                #     self.price = float(str_price_integer + '.' + str_price_decimal)
 
         if is_used_price:
             for price_tag in soup.find_all(id="priceblock_usedprice"):
@@ -96,8 +103,10 @@ urls = [
     # "https://www.amazon.com/Philips-AVENT-Natural-Glass-Bottle/dp/B00PF83R0W/ref=sr_1_6_s_it?s=baby-products&ie=UTF8&qid=1508883080&sr=1-6&keywords=philips%2Bavent&th=1",
     # "https://www.amazon.com/Britax-Boulevard-G4-1-Convertible-Domino/dp/B00OLRKNGY/ref=sr_1_1_s_it?s=baby-products&ie=UTF8&qid=1508884406&sr=1-1&refinements=p_89%3ABritax%2BUSA&th=1",
     # "https://www.amazon.com/Bose-QuietComfort-Wireless-Headphones-Cancelling/dp/B01E3SNO1G/ref=sr_1_3?s=electronics&ie=UTF8&qid=1508884685&sr=1-3&keywords=bose",
-    "https://www.amazon.com/dp/B00N4R4C3M",
-    "https://www.amazon.com/JBL-Wireless-Bluetooth-Speaker-Pairing/dp/B00GOF0ZQ4/ref=sr_1_5?ie=UTF8&qid=1508884897&sr=8-5&keywords=jbl+pulse",
+    # "https://www.amazon.com/dp/B01LWVX2RG",
+    # "https://www.amazon.com/dp/B01E3SNO1G",
+    # "https://www.amazon.com/dp/B00N4R4C3M",
+    # "https://www.amazon.com/JBL-Wireless-Bluetooth-Speaker-Pairing/dp/B00GOF0ZQ4/ref=sr_1_5?ie=UTF8&qid=1508884897&sr=8-5&keywords=jbl+pulse",
     "https://www.amazon.com/dp/B00USM22DI?th=1"
 ]
 

@@ -44,20 +44,37 @@ class Commodity:
         # retrieve price
         is_used_price = False
 
+        # for price_tag in soup.find_all(id="priceblock_ourprice"):
+        #     str_price = price_tag.text
+        #     if str_price.find('\n') == -1:
+        #         self.price = float(str_price[1:])
+        #     else:
+        #         index_of_1st_enter = str_price.find('\n', 2+1)
+        #         str_price_integer = str_price[2:index_of_1st_enter]
+        #         index_of_2nd_enter = str_price.find('\n', index_of_1st_enter+1)
+        #         str_price_decimal = str_price[index_of_1st_enter+1:index_of_2nd_enter]
+        #         if str_price_integer == '\n':
+        #             is_used_price = True
+        #             break
+        #         else:
+        #             self.price = float(str_price_integer + '.' + str_price_decimal)
+
         for price_tag in soup.find_all(id="priceblock_ourprice"):
-            str_price = price_tag.text
+            str_price = price_tag.text.strip(' ')
+            print(str_price)
             if str_price.find('\n') == -1:
                 self.price = float(str_price[1:])
             else:
-                index_of_1st_enter = str_price.find('\n', 2+1)
-                str_price_integer = str_price[2:index_of_1st_enter]
-                index_of_2nd_enter = str_price.find('\n', index_of_1st_enter+1)
-                str_price_decimal = str_price[index_of_1st_enter+1:index_of_2nd_enter]
-                if str_price_integer == '\n':
-                    is_used_price = True
-                    break
-                else:
-                    self.price = float(str_price_integer + '.' + str_price_decimal)
+                prices = str_price.split('\n')
+                str_price_integer, str_price_decimal = '', ''
+                for price in prices:
+                    if price != '' and price != '$':
+                        if str_price_integer == '':
+                            str_price_integer = price
+                        else:
+                            str_price_decimal = price
+
+                self.price = float(str_price_integer + '.' + str_price_decimal)
 
         if is_used_price:
             for price_tag in soup.find_all(id="priceblock_usedprice"):
